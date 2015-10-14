@@ -1,0 +1,134 @@
+package edu.csulb.LinkedList;
+
+/**
+ * Partial implement of a stack for characters
+ * @author Hieu Tran
+ *
+ */
+public class Stack {
+	Node head= null;
+	Node tail= null;
+	int length;
+	
+	public Stack()
+	{
+		head=null;
+		tail=null;
+		length=0;
+	}
+	/**
+	 * add a character to the front of the stack
+	 * @param item - the character to be added to the stack
+	 */
+	public void push(char item)
+	{
+		Node node = new Node(item);
+		if (head == null) {
+			head = node;
+			tail = head;
+		} 
+		else {
+			node.next = head;
+			head = node;
+			
+		}
+
+		length++;
+	}
+	
+	/**
+	 * remove and return the character in front of the stack
+	 * @return a character at from of the stack
+	 */
+	public char pop()
+	{
+		Node temp= head;
+		head= head.next;
+		length--;
+		return temp.data;
+		
+	}
+	
+	/**
+	 * Reverse the stack
+	 * @param item - the character to be added to the stack
+	 */
+	public void reverse(char item)
+	{
+		Node node = new Node(item);
+		if (head == null) {
+			head = node;
+			tail = head;
+		} 
+		else {
+			tail.next = node;
+			tail = node;
+			
+		}
+
+		length++;
+	}
+	/**
+	 * look at the character at the front of the stack
+	 * @return
+	 */
+	public char peek()
+	{
+		return head.data;
+	}
+	/**
+	 * check to see whether the stack is empty
+	 * @return true or false
+	 */
+	public boolean isEmpty()
+	{
+		return (length==0);
+	}
+	
+	/**
+	 * find out the size of the stack
+	 * @return size of the stack
+	 */
+	public int getSize()
+	{
+		return length;
+	}
+	
+	/**
+	 * override the toString method
+	 */
+	@Override
+	public String toString()
+	{
+		StringBuilder result = new StringBuilder();
+		Node tempNode = null;
+		result.append("[");
+
+		if (head != null) {
+			for(tempNode = head; tempNode != null; tempNode = tempNode.next) {
+				result.append(tempNode.data + " ");
+			}
+		}
+
+		result.append("]");
+
+		return result.toString();
+	}
+	/**
+	 * it stores reference to next item in the stack
+	 * @author Hieu Tran
+	 *
+	 */
+	private class Node {
+		//it stores reference to next item in the stack
+		public Node next = null;
+
+		//Node can store data as integer but code can be tweaked to store ArrayList or any other java object.
+		public char data = 0;
+
+		public Node(char value) {
+			this.data = value;
+			next = null;
+		}
+	}
+}

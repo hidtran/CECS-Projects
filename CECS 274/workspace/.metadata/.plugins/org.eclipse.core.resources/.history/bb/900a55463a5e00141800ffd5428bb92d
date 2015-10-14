@@ -1,0 +1,150 @@
+package edu.csulb.romannumerals;
+import java.util.Scanner;
+
+public class RomanNumerals {
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		/*
+		 * Stack stack = new Stack();
+		stack.push('A');
+		stack.push('B');
+		stack.push('C');
+		stack.push('D');
+		stack.push('E');
+		stack.push('F');
+		stack.push('G');
+		System.out.println(stack.toString());
+		System.out.println(stack.pop());
+		System.out.println(stack.pop());
+		System.out.println(stack.pop());
+		System.out.println(stack.pop());
+		System.out.println(stack.toString());
+		*/
+		boolean out = false;
+		int arabic = 0;
+		Numbers num = new Numbers();
+		Scanner scan = new Scanner(System.in);
+		while(!out)
+		{
+			System.out.println("Enter Roman Numerals (Q to quit): ");
+			String name = scan.nextLine().trim().toUpperCase();
+			if(!scan.hasNextLine())
+			{
+				System.out.println("Invalid Input");
+			}
+			else if(name.charAt(0) == 'Q')
+			{
+				System.out.println("Thank you for playing.");
+				out = true;
+			}
+			else
+			{
+				if(num.isRomanNumbers(name))
+				{
+					num.convertRomanNumbers(name);
+					num.calculate(name);
+					arabic = num.getArabicNumbers();
+					System.out.println("Arabic Numbers: " + arabic);
+					num.convertArabicNumbers(arabic);
+					System.out.println("Roman Numerals Total: " + num.getRomanNumbers());
+				}
+				else
+				{
+					System.out.println("Invalid Input.");
+				}
+			}
+		}
+		/*num.convertRomanNumbers(name);
+		num.calculate(name);
+		arabic = num.getArabicNumbers();
+		System.out.println("Arabic Numbers: " + arabic);
+		num.convertArabicNumbers(arabic);
+		System.out.println("Roman Numerals Total: " + num.getRomanNumbers());
+		*/
+	}
+
+}
+
+/*while(value > 0)
+		{
+			if (value >= ROMANM)
+			{
+				setRomanNumbers(ROMANM);
+				s.push(roman.charAt(0));
+				value -= ROMANM;
+			}
+			else if(value >= ROMANM - ROMANC)
+			{
+				setRomanNumbers(ROMANC);
+				s.push(roman.charAt(0));
+				setRomanNumbers(ROMANM);
+				s.push(roman.charAt(0));
+				value -= ROMANM - ROMANC;
+			}
+			else if(value >= ROMAND - ROMANC)
+			{
+				setRomanNumbers(ROMANC);
+				s.push(roman.charAt(0));
+				setRomanNumbers(ROMAND);
+				s.push(roman.charAt(0));
+				value -= ROMAND - ROMANC;
+			}
+			else if(value >= ROMANC)
+			{
+				setRomanNumbers(ROMANC);
+				s.push(roman.charAt(0));
+				value -= ROMANC;
+			}
+			else if(value >= ROMANC - ROMANX)
+			{
+				setRomanNumbers(ROMANX);
+				s.push(roman.charAt(0));
+				setRomanNumbers(ROMANC);
+				s.push(roman.charAt(0));
+				value -= ROMANC - ROMANX;
+			}
+			else if(value >= ROMANL)
+			{
+				setRomanNumbers(ROMANL);
+				s.push(roman.charAt(0));
+				value -= ROMANL;
+			}
+			else if(value >= ROMANL - ROMANX)
+			{
+				setRomanNumbers(ROMANX);
+				s.push(roman.charAt(0));
+				setRomanNumbers(ROMANL);
+				s.push(roman.charAt(0));
+				value -= ROMANL - ROMANX;
+			}
+			else if(value >= ROMANX)
+			{
+				setRomanNumbers(ROMANX);
+				s.push(roman.charAt(0));
+				value -= ROMANX;
+			}
+			else if(value >= ROMANV)
+			{
+				setRomanNumbers(ROMANV);
+				s.push(roman.charAt(0));
+				value -= ROMANV;
+			}
+			else if(value >= ROMANV - ROMANI)
+			{
+				setRomanNumbers(ROMANI);
+				s.push(roman.charAt(0));
+				setRomanNumbers(ROMANV);
+				s.push(roman.charAt(0));
+				value -= ROMANV - ROMANI;
+			}
+			else
+			{
+				setRomanNumbers(ROMANI);
+				s.push(roman.charAt(0));
+				value -= ROMANI;
+			}
+		}
+	}
+*/

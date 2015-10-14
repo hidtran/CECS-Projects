@@ -1,0 +1,369 @@
+package edu.csulb.romannumerals;
+
+public class Numbers {
+	private static final int ROMANI = 1;
+	private static final int ROMANX = 10;
+	private static final int ROMANV = 5;
+	private static final int ROMANL = 50;
+	private static final int ROMANC = 100;
+	private static final int ROMAND = 500;
+	private static final int ROMANM = 1000;
+	private String roman;
+	private int arabic;
+	private int leftSide;
+	private int rightSide;
+	private Stack s;
+	private Queue q;
+	
+	public Numbers()
+	{
+		roman = "";
+		arabic = 0;
+		leftSide = 0;
+		rightSide = 0;
+		s = new Stack();
+		q = new Queue();
+	}
+	
+	public void setRomanNumbers(int number)
+	{
+		if(number <= ROMANI)
+		{
+			roman = "I";
+		}
+		else if(number <= ROMANV)
+		{
+			roman = "V";
+			
+		}
+		else if(number == ROMANX)
+		{
+			roman = "X";
+		}
+		else if(number == ROMANL)
+		{
+			roman = "L";
+		}
+		else if(number == ROMANC)
+		{
+			roman = "C";
+		}
+		else if(number == ROMAND)
+		{
+			roman = "D";
+		}
+		else if(number == ROMANM)
+		{
+			roman = "M";
+		}
+	}
+	
+	public String getRomanNumbers()
+	{
+		roman = ""; //reset Roman numbers;
+		String temp = ""; //temporary variable for reversing stack 
+		while(!s.isEmpty())
+		{
+			temp += s.pop();
+		}
+		for(int index = temp.length() - 1 ; index >= 0; index--)
+		{
+			roman += temp.charAt(index);
+		}
+		return roman;
+	}
+	
+	
+	public void setArabicNumbers(char name)
+	{
+		if(name == 'I')
+		{
+			arabic = ROMANI;
+		}
+		else if(name == 'V')
+		{
+			arabic = ROMANV;
+		}
+		else if(name == 'X')
+		{
+			arabic = ROMANX;
+		}
+		else if(name == 'L')
+		{
+			arabic = ROMANL;
+		}
+		else if(name == 'C')
+		{
+			arabic = ROMANC;
+		}
+		else if(name == 'D')
+		{
+			arabic = ROMAND;
+		}
+		else if(name == 'M')
+		{
+			arabic = ROMANM;
+		}
+	}
+	
+	public int getArabicNumbers()
+	{
+		return arabic;
+	}
+	
+	public void convertRomanNumbers(String input)
+	{ 
+		int current = 0;
+		int previous = 0;
+		boolean exit = false;
+		boolean out = false;
+		for(int i = 0; i < input.length(); i++)
+		{
+			if(input.charAt(i) == '*' || input.charAt(i) == '/' || input.charAt(i) == '+' || input.charAt(i) == '-')
+			{
+				for(int j = i + 1; j < input.length(); j++)
+				{
+					s.push(input.charAt(j));
+				}
+				break;
+			}
+			q.enqueue(input.charAt(i));
+		}
+		while(!exit)
+		{
+			if(q.isEmpty())
+			{
+				if(current > previous)
+				{
+					leftSide -= previous;
+				}
+				exit = true;
+				current = 0;
+				previous = 0;
+			}
+			else
+			{
+				previous = current;
+				setArabicNumbers(q.dequeue());
+				current = getArabicNumbers();
+				if(current <= previous)
+				{
+					leftSide += current;
+				}
+				else if(current > previous)
+				{
+					leftSide += current - previous;
+				}
+			}
+		}
+			
+		while(!out)
+		{
+			if(s.isEmpty())
+			{
+				out = true;
+			}
+			else
+			{
+				previous = current;
+				setArabicNumbers(s.pop());
+				current = getArabicNumbers();
+				if(current < previous)
+				{
+					rightSide -= current;
+				}
+				else if(current >= previous)
+				{
+					rightSide += current;
+				}
+			}
+		}
+		System.out.println("Roman Numerals Left Side Value: " + leftSide);
+		System.out.println("Roman Numerals Right Side Value: " + rightSide);
+	}
+	
+	public void calculate(String input)
+	{
+		for(int index = 0; index < input.length(); index++)
+		{
+			if(input.charAt(index) == '*')
+			{
+				arabic = leftSide * rightSide;
+			}
+			else if(input.charAt(index) == '/')
+			{
+				arabic = leftSide / rightSide;
+			}
+			else if(input.charAt(index) == '+')
+			{
+				arabic = leftSide + rightSide;
+			}
+			else if(input.charAt(index) == '-')
+			{
+				arabic = leftSide - rightSide;
+			}
+		}
+	}
+	
+	public void convertArabicNumbers(int num)
+	{
+		int value = num;
+		while(value > 0)
+		{
+			if (value >= ROMANM)
+			{
+				setRomanNumbers(ROMANM);
+				s.push(roman.charAt(0));
+				value -= ROMANM;
+			}
+			else if(value >= ROMANM - ROMANC)
+			{
+				setRomanNumbers(ROMANC);
+				s.push(roman.charAt(0));
+				setRomanNumbers(ROMANM);
+				s.push(roman.charAt(0));
+				value -= ROMANM - ROMANC;
+			}
+			else if(value >= ROMAND)
+			{
+				setRomanNumbers(ROMAND);
+				s.push(roman.charAt(0));
+				value -= ROMAND;
+			}
+			else if(value >= ROMAND - ROMANC)
+			{
+				setRomanNumbers(ROMANC);
+				s.push(roman.charAt(0));
+				setRomanNumbers(ROMAND);
+				s.push(roman.charAt(0));
+				value -= ROMAND - ROMANC;
+			}
+			else if(value >= ROMANC)
+			{
+				setRomanNumbers(ROMANC);
+				s.push(roman.charAt(0));
+				value -= ROMANC;
+			}
+			else if(value >= ROMANC - ROMANX)
+			{
+				setRomanNumbers(ROMANX);
+				s.push(roman.charAt(0));
+				setRomanNumbers(ROMANC);
+				s.push(roman.charAt(0));
+				value -= ROMANC - ROMANX;
+			}
+			else if(value >= ROMANL)
+			{
+				setRomanNumbers(ROMANL);
+				s.push(roman.charAt(0));
+				value -= ROMANL;
+			}
+			else if(value >= ROMANL - ROMANX)
+			{
+				setRomanNumbers(ROMANX);
+				s.push(roman.charAt(0));
+				setRomanNumbers(ROMANL);
+				s.push(roman.charAt(0));
+				value -= ROMANL - ROMANX;
+			}
+			else if(value >= ROMANX)
+			{
+				setRomanNumbers(ROMANX);
+				s.push(roman.charAt(0));
+				value -= ROMANX;
+			}
+			else if(value >= ROMANX - ROMANI)
+			{
+				setRomanNumbers(ROMANI);
+				s.push(roman.charAt(0));
+				setRomanNumbers(ROMANX);
+				s.push(roman.charAt(0));
+				value -= ROMANX;
+			}
+			else if(value >= ROMANV)
+			{
+				setRomanNumbers(ROMANV);
+				s.push(roman.charAt(0));
+				value -= ROMANV;
+			}
+			else if(value >= ROMANV - ROMANI)
+			{
+				setRomanNumbers(ROMANI);
+				s.push(roman.charAt(0));
+				setRomanNumbers(ROMANV);
+				s.push(roman.charAt(0));
+				value -= ROMANV - ROMANI;
+			}
+			else
+			{
+				setRomanNumbers(ROMANI);
+				s.push(roman.charAt(0));
+				value -= ROMANI;
+			}
+		}
+	}
+	
+	public boolean isRomanNumbers(String input)
+	{
+		boolean isRoman = true;
+		boolean exit = false;
+		boolean out = false;
+		char previous = ' ';
+		char next = ' ';
+		char current = ' ';
+		char fourth = ' ';
+		int index = 0; 
+		while(index < input.length() && !exit)
+		{
+			current = input.charAt(index);
+			previous = current;
+			while(index <= input.length() - 1 && !out)
+			{
+				current = input.charAt(index++);
+				if(index <= input.length() - 1)
+				{
+					next = input.charAt(index++);
+					if(index <= input.length() - 1)
+					{
+						fourth = input.charAt(index++);
+					}
+					else
+					{
+						index = 0;
+						out = true;
+					}
+				}
+				else
+				{
+					index = 0;
+					out = true;
+				}
+			}
+			if(current == 'M')
+			{
+				if(previous == current && next == current)
+				{
+					if(next != fourth)
+					{
+						exit = true;
+					}
+					else
+					{
+						isRoman = false;
+						exit = true;
+					}
+				}
+				else if (previous == 'C' && next != 'C')
+				{
+					exit = true;
+				}
+				else
+				{
+					isRoman = false;
+					exit = true;
+				}
+			}
+		}
+		return isRoman;
+	}
+}

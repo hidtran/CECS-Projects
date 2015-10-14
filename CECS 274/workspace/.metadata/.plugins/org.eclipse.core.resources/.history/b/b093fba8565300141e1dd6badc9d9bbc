@@ -1,0 +1,114 @@
+import java.util.Scanner;
+import java.util.ArrayList;
+
+public class HappyNumbers {
+	
+	private static ArrayList numList = new ArrayList();
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		promptUser();
+	}
+	
+	public static void promptUser()
+	{
+		Scanner scan = new Scanner(System.in);
+		boolean exit = false;
+		boolean out = false;
+		char prompt;
+		do
+		{
+			System.out.println("Would you like to find a Happy Number (y/n)?");
+			prompt = scan.next().trim().toLowerCase().charAt(0);
+			switch(prompt)
+			{
+				case 'y':
+					while(!exit)
+					{
+						System.out.println("Enter a positive integer (0 to quit): ");
+						int input = scan.nextInt();
+						if(input > 0)
+						{
+							numList.add(input);
+							dissect(input);
+						}
+						else if(input == 0)
+						{
+							exit = true;
+						}
+						else
+						{
+							System.out.println("Invalid Input.");
+						}
+					}
+				case 'n':
+					System.out.println("Thank you for playing.");
+					out = true;
+					break;
+				default:
+					System.out.println("Invalid Input.");
+					break;
+			}
+		}while(!out);
+					
+	}
+	
+	public static void dissect(int num)
+	{
+		int[] digit = new int[1000];
+		int remainder = 0;
+		while(num != 1)
+		{
+			for(int index = 0 ; index < digit.length; index++)
+			{
+				remainder = num % 10;
+				num /= 10;
+				digit[index] = remainder;
+			}
+			square(digit);
+		}
+	}
+	
+	public static void square(int[] temp)
+	{
+		int total = 0;
+		for(int index = 0 ; index < temp.length; index++)
+		{
+			total += temp[index] * temp[index];
+		}
+		converge(total);
+	}
+	
+	public static void converge(int num)
+	{
+		if(num == 1)
+		{
+			numList.add(num);
+			for(int index = 0 ; index < numList.size();index++)
+			{
+				System.out.print("Sequence: " + numList.get(index) + " is a Happy Number");
+			}
+			numList.clear();
+			promptUser();
+		}
+		else
+		{
+			for(int index = 0 ; index < numList.size(); index++)
+			{
+				if(!numList.contains(num))
+				{
+					numList.add(num);
+					dissect(num);
+				}
+				else
+				{
+					numList.add(num);
+					System.out.println("Sequence: " + numList.get(index) + " is not a Happy Number");
+					numList.clear();
+					promptUser();
+				}
+			}
+		}
+	}
+}

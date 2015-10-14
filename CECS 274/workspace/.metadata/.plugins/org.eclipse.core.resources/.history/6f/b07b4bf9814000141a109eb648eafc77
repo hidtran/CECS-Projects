@@ -1,0 +1,170 @@
+import java.util.Scanner;
+
+public class BlackJack {
+	
+	public static final int HANDSIZE = 12;
+
+	public static void main(String[] args) 
+	{
+		menu();
+		
+		/**
+		Deck newDeck = new Deck();
+		Hand newHand = new Hand(12);
+		Card tempCard;
+		newDeck.shuffle();
+		
+		for(int index = 0; index < 12; index++)
+		{
+			tempCard = newDeck.draw();
+			newHand.addCard(tempCard);
+		}
+		newDeck.showDeck();
+		System.out.println("Your Hands Have:");
+		newHand.showHand();
+		System.out.println("Your total hand value: ");
+		System.out.println(newHand.handValue());
+		*/
+		
+		/**
+		Card getCard = new Card(5, 1);
+		System.out.println(getCard.toString());
+		*/
+		
+		/**
+		Deck getDeck = new Deck();
+		System.out.println("Current Deck: \n");
+		getDeck.showDeck();
+		System.out.println();
+		getDeck.shuffle();
+		System.out.println("Shuffle Deck: \n");
+		getDeck.showDeck();
+		*/
+	
+	}
+	
+	public static void menu()
+	{
+		int userChoice = 0;
+		Deck playerDeck = new Deck();
+		Hand playerHand = new Hand(HANDSIZE);
+		Card playerCard;
+		boolean exit = false;
+		
+		do{
+			Scanner input = new Scanner(System.in);	
+			System.out.println("Choose one of the following options: ");
+			System.out.println("1: Create New Deck");
+			System.out.println("2: Deal 4 Cards & Show The Remainder Cards");
+			System.out.println("3: Shuffle The Cards & Show The Cards");
+			System.out.println("4: Play The Black Jack Game");
+			System.out.println("5: Quit");
+			userChoice = input.nextInt();
+			
+			switch(userChoice){
+			case 1:
+				System.out.println("New Deck: \n");
+				playerDeck = new Deck();
+				playerDeck.showDeck();
+				break;
+			case 2:
+				int total = 4;
+				for(int index = 0; index < total; index++)
+				{
+					playerCard = playerDeck.draw();
+					playerHand.addCard(playerCard);
+					playerDeck.removeCard(playerCard);
+				}
+				System.out.println("Your Current Hand:\n");
+				playerHand.showHand();
+				System.out.println("\nYour Remaining Deck:\n");
+				playerDeck.remainingDeck();
+				break;
+			case 3:
+				playerDeck.shuffle();
+				playerDeck.showDeck();
+				break;
+			case 4:
+				playBlackJack();
+				break;
+			case 5:
+				exit = true;
+				break;
+			default:
+				System.out.println("Invalid input");
+				break;
+			}
+		}while(!exit);
+	}
+	public static void playBlackJack()
+	{
+		Hand dealer = new Hand(HANDSIZE);
+		Hand player = new Hand(HANDSIZE);
+		Deck newDeck = new Deck();
+		Card newCard;
+		Scanner scan = new Scanner(System.in);
+		int amount = 100;
+		
+		while(amount > 0)
+		{
+			System.out.println("You have $" + amount + ". How much would like to bet?");
+			int choice = scan.nextInt();
+			String showCard = "";
+			String unknownCard = "???? of ????";
+			if(choice > amount)
+			{
+				System.out.println("Insufficent Amount To Bet.");
+				break;
+			}
+			else if(choice <= amount && choice > 0)
+			{
+				for(int i = 0; i < 2; i++)
+				{
+					newCard = newDeck.draw();
+					player.addCard(newCard);
+					newDeck.removeCard(newCard);
+					for(int j = 0; j <= i; j++)
+					{
+						newCard = newDeck.draw();
+						dealer.addCard(newCard);
+						newDeck.removeCard(newCard);
+						if(j == 1)
+						{
+							showCard = newCard.toString();
+						}
+					}
+				}
+				System.out.println("Your Hand Value: " + player.handValue());
+				player.showHand();
+				System.out.println("\nDealer Hand:\n");
+				System.out.println(unknownCard);
+				System.out.println(showCard);
+				
+				while(newDeck.top > 20)
+				{
+					System.out.println("Would you like to hit (Y or N)?");
+					String choose = scan.next();
+					switch(choose)
+					{
+					case "N":
+						break;
+					case "Y":
+						newCard = newDeck.draw();
+						showCard = newCard.toString();
+						player.addCard(newCard);
+						System.out.println("Player gets a " + showCard);
+						System.out.println("Player total: " + player.handValue());
+						player.showHand();
+						
+					default:
+						System.out.println("Invalid Selection.");
+						break;
+						
+					}
+				}
+				
+				
+			 }
+		}
+	}
+}

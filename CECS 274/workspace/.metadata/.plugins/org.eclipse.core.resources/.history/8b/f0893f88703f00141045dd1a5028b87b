@@ -1,0 +1,70 @@
+import java.util.Scanner;
+
+public class Hand {
+	Card[] myHand;
+	int handSize;
+	Scanner input = new Scanner(System.in);
+	
+	public Hand(int amount)
+	{
+		myHand = new Card[amount];
+		handSize = 0;
+	}
+	
+	public int handValue()
+	{
+		int cardValue = 0;
+		int total = 0;
+		int ace = 0;
+		
+		for(int index = 0; index < handSize; index++)
+		{	
+			while (total < 21)
+			{
+				cardValue = myHand[index].getValue(); 
+				if(cardValue == 1)
+				{
+					ace++;
+					if(total <= 10)
+					{
+						total += 11;
+					}
+					else
+					{
+						total += 1;
+					}
+					System.out.println("Your total: " + total);
+				}
+				else if(cardValue >= 11 && cardValue <= 13)
+				{
+					total += 10;
+				}
+				else if(cardValue >= 2 && cardValue <= 10)
+				{
+					total += cardValue;
+				}
+			}
+			if(total > 21 && ace > 0)
+			{
+				total -= 10;
+				System.out.println("Your new total: " + total);
+			}
+		}
+		return total;
+	}
+
+	
+	public void addCard(Card newHand)
+	{
+		myHand[handSize++] = newHand;
+	}
+	
+	public void showCard()
+	{
+		for (int index = 0; index < handSize; index++)
+		{
+			System.out.println(myHand[index].toString());
+		}
+	}
+	
+}

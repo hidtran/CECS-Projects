@@ -1,0 +1,461 @@
+package edu.csulb.romannumerals;
+
+/**
+ * Converting and calculating Roman Numerals expression
+ * Converting and calculating Arabic numbers expression
+ * @author Hieu Tran
+ *
+ */
+public class Numbers {
+	/*
+	 * Constant Roman Numerals
+	 */
+	private static final int ROMANI = 1;
+	private static final int ROMANX = 10;
+	private static final int ROMANV = 5;
+	private static final int ROMANL = 50;
+	private static final int ROMANC = 100;
+	private static final int ROMAND = 500;
+	private static final int ROMANM = 1000;
+	/*
+	 * Instance variables
+	 */
+	private String roman;		//Total Roman values
+	private int arabic;			//Total Arabic values
+	private Stack s;			//Create New Stack Object
+	private Queue q;			//Create New Queue Object
+	
+	/**
+	 * Initializing instance variables
+	 */
+	public Numbers()
+	{
+		roman = "";
+		arabic = 0;
+		s = new Stack();	//New Stack
+		q = new Queue();	//New Queue			
+	}
+	
+	/**
+	 * Determine Roman Numerals for Arabic values
+	 * @param number - Arabic number
+	 */
+	public void setRomanNumbers(int number)
+	{
+		if(number <= ROMANI)
+		{
+			roman = "I";
+		}
+		else if(number <= ROMANV)
+		{
+			roman = "V";
+			
+		}
+		else if(number == ROMANX)
+		{
+			roman = "X";
+		}
+		else if(number == ROMANL)
+		{
+			roman = "L";
+		}
+		else if(number == ROMANC)
+		{
+			roman = "C";
+		}
+		else if(number == ROMAND)
+		{
+			roman = "D";
+		}
+		else if(number == ROMANM)
+		{
+			roman = "M";
+		}
+	}
+	
+	/**
+	 * Getting total Roman Numeral values
+	 * @return	- Total Roman Numeral values
+	 */
+	public String getRomanNumbers()
+	{
+		return roman;
+	}
+	
+	/**
+	 * Determine Arabic values for Roman Numerals
+	 * @param name - Roman Numeral character
+	 */
+	public void setArabicNumbers(char name)
+	{
+		if(name == 'I')
+		{
+			arabic = ROMANI;
+		}
+		else if(name == 'V')
+		{
+			arabic = ROMANV;
+		}
+		else if(name == 'X')
+		{
+			arabic = ROMANX;
+		}
+		else if(name == 'L')
+		{
+			arabic = ROMANL;
+		}
+		else if(name == 'C')
+		{
+			arabic = ROMANC;
+		}
+		else if(name == 'D')
+		{
+			arabic = ROMAND;
+		}
+		else if(name == 'M')
+		{
+			arabic = ROMANM;
+		}
+	}
+	
+	/**
+	 * Getting total Arabic values
+	 * @return - Total Arabic values
+	 */
+	public int getArabicNumbers()
+	{
+		return arabic;
+	}
+	
+	/**
+	 * Resetting Roman Numerals
+	 */
+	public void reset()
+	{
+		roman = "";
+		arabic = 0;
+	}
+	
+	/**
+	 * Splitting Arabic Expression into two Arabic values
+	 * @param name - Arabic numbers input
+	 */
+	public void convertArabicNumbers(String name)
+	{
+		String leftRoman = "";	//Arabic left hand side values
+		String rightRoman = "";	//Arabic right hand side values
+		int leftArabic = 0;
+		int rightArabic = 0;
+		//Reading each Arabic number input
+		for(int i = 0; i < name.length(); i++)
+		{
+			//Skipping space character
+			if (name.charAt(i) == ' ')
+			{
+				i++;
+			}
+			//Skipping string operator expression
+			if(name.charAt(i) == '*' || name.charAt(i) == '/' || name.charAt(i) == '+' || name.charAt(i) == '-')
+			{
+				for(int j = i + 1; j < name.length(); j++)
+				{
+					//Skipping space character
+					if (name.charAt(j) == ' ')
+					{
+						j++;
+					}
+					rightRoman += name.charAt(j);	//Retrieving right hand side Arabic values
+				}
+				break;
+			}
+			leftRoman += name.charAt(i);		//Retrieving left hand side of Arabic values
+		}
+		leftArabic = Integer.parseInt(leftRoman);	//Converting left hand side of Arabic numbers into integer
+		rightArabic = Integer.parseInt(rightRoman);	//Converting right hand side of Arabic numbers into integer
+	}
+	
+	/**
+	 * Converting Roman Numerals into Arabic numbers
+	 * @param input - Roman Numeral input
+	 */
+	public void convertRomanNumbers(String input)
+	{ 
+		String leftRoman = "";
+		String rightRoman = "";
+		//Reading each Roman Numeral input
+		for(int i = 0; i < input.length(); i++)
+		{
+			//Skipping space character of the input
+			if (input.charAt(i) == ' ')
+			{
+				i++;
+			}
+			//Skipping string operator expression
+			if(input.charAt(i) == '*' || input.charAt(i) == '/' || input.charAt(i) == '+' || input.charAt(i) == '-')
+			{
+				for(int j = i + 1; j < input.length(); j++)
+				{
+					//Skipping space character
+					if (input.charAt(j) == ' ')
+					{
+						j++;
+					}
+					rightRoman += input.charAt(j);	//Storing Roman Numerals right hand side
+					s.push(input.charAt(j));	//Push Roman Numerals right hand side onto stack
+				}
+				break;
+			}
+			leftRoman += input.charAt(i);	//Storing Roman Numerals left hand side
+			q.enqueue(input.charAt(i));		//Push Roman Numerals left hand side onto queue
+		}
+	}
+	
+	public void toArabicNumbers()
+	{
+		int current = 0;		//Current Arabic Values
+		int previous = 0;		//Previous Arabic Values
+		int leftArabic = 0;
+		int rightArabic = 0;
+		boolean exit = false;
+		boolean out = false;
+		//Converting into left hand side Arabic numbers
+		while(!exit)
+		{
+			if(q.isEmpty())
+			{
+				exit = true;
+				current = 0;
+				previous = 0;
+			}
+			else
+			{
+				previous = current;
+				setArabicNumbers(q.dequeue());	//Getting top queue element
+				current = arabic;
+				//Converting into Arabic number left hand side
+				if(current <= previous)
+				{
+					leftArabic += current;
+				}
+				else if(current > previous)
+				{
+					leftArabic += current - (2 * previous);
+				}
+			}
+		}
+		//Converting into right hand side Arabic numbers
+		while(!out)
+		{
+			if(s.isEmpty())
+			{
+				out = true;
+			}
+			else
+			{
+				previous = current;
+				setArabicNumbers(s.pop());	//Getting top stack element
+				current = arabic;
+				//Converting into Arabic number right hand side
+				if(current < previous)
+				{
+					rightArabic -= current;
+				}
+				else if(current >= previous)
+				{
+					rightArabic += current;
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Converting Arabic numbers into Roman Numerals
+	 * @param number - Arabic numbers
+	 */
+	public String toRomanNumbers(int number)
+	{
+		String temp = ""; //temporary variable for reversing stack 
+		String rome = "";	//Capture reverse stack into a string
+		int value = number;
+		while(value > 0)
+		{
+			if (value >= ROMANM)
+			{
+				setRomanNumbers(ROMANM);
+				s.push(roman.charAt(0));
+				value -= ROMANM;
+			}
+			else if(value >= ROMANM - ROMANC)
+			{
+				setRomanNumbers(ROMANC);
+				s.push(roman.charAt(0));
+				setRomanNumbers(ROMANM);
+				s.push(roman.charAt(0));
+				value -= ROMANM - ROMANC;
+			}
+			else if(value >= ROMAND)
+			{
+				setRomanNumbers(ROMAND);
+				s.push(roman.charAt(0));
+				value -= ROMAND;
+			}
+			else if(value >= ROMAND - ROMANC)
+			{
+				setRomanNumbers(ROMANC);
+				s.push(roman.charAt(0));
+				setRomanNumbers(ROMAND);
+				s.push(roman.charAt(0));
+				value -= ROMAND - ROMANC;
+			}
+			else if(value >= ROMANC)
+			{
+				setRomanNumbers(ROMANC);
+				s.push(roman.charAt(0));
+				value -= ROMANC;
+			}
+			else if(value >= ROMANC - ROMANX)
+			{
+				setRomanNumbers(ROMANX);
+				s.push(roman.charAt(0));
+				setRomanNumbers(ROMANC);
+				s.push(roman.charAt(0));
+				value -= ROMANC - ROMANX;
+			}
+			else if(value >= ROMANL)
+			{
+				setRomanNumbers(ROMANL);
+				s.push(roman.charAt(0));
+				value -= ROMANL;
+			}
+			else if(value >= ROMANL - ROMANX)
+			{
+				setRomanNumbers(ROMANX);
+				s.push(roman.charAt(0));
+				setRomanNumbers(ROMANL);
+				s.push(roman.charAt(0));
+				value -= ROMANL - ROMANX;
+			}
+			else if(value >= ROMANX)
+			{
+				setRomanNumbers(ROMANX);
+				s.push(roman.charAt(0));
+				value -= ROMANX;
+			}
+			else if(value >= ROMANX - ROMANI)
+			{
+				setRomanNumbers(ROMANI);
+				s.push(roman.charAt(0));
+				setRomanNumbers(ROMANX);
+				s.push(roman.charAt(0));
+				value -= ROMANX;
+			}
+			else if(value >= ROMANV)
+			{
+				setRomanNumbers(ROMANV);
+				s.push(roman.charAt(0));
+				value -= ROMANV;
+			}
+			else if(value >= ROMANV - ROMANI)
+			{
+				setRomanNumbers(ROMANI);
+				s.push(roman.charAt(0));
+				setRomanNumbers(ROMANV);
+				s.push(roman.charAt(0));
+				value -= ROMANV - ROMANI;
+			}
+			else
+			{
+				setRomanNumbers(ROMANI);
+				s.push(roman.charAt(0));
+				value -= ROMANI;
+			}
+		}
+		while(!s.isEmpty())
+		{
+			temp += s.pop();
+		}
+		for(int index = temp.length() - 1 ; index >= 0; index--)
+		{
+			rome += temp.charAt(index);
+		}
+		return rome;	//Reverse stack becomes Roman Numerals
+	}
+	
+	/**
+	 * Calculating Arabic numbers
+	 * @param input	- Roman Numerals input
+	 * @return - Total Arabic values
+	 */
+	public int calculate(String input)
+	{
+		int total = 0;
+		int leftArabic = 0;
+		int rightArabic = 0;
+		for(int index = 0; index < input.length(); index++)
+		{
+			if(input.charAt(index) == '*')
+			{
+				total = leftArabic * rightArabic;
+			}
+			else if(input.charAt(index) == '/')
+			{
+				total = leftArabic / rightArabic;
+			}
+			else if(input.charAt(index) == '+')
+			{
+				total = leftArabic + rightArabic;
+			}
+			else if(input.charAt(index) == '-')
+			{
+				total = leftArabic - rightArabic;
+			}
+		}
+		return total;
+	}
+	
+	/**
+	 * Arabic expression as a string
+	 * @return - Arabic expression
+	 */
+	public String arabicToString()
+	{
+		return ("Arabic Expression: " + leftArabic + " + " + rightArabic + " = " + arabic);
+	}
+	
+	/**
+	 * Roman Numerals expression as a string
+	 * @return - Roman Numerals expression
+	 */
+	public String romanToString()
+	{
+		return ("Roman Expression: " + leftRoman + " + " + rightRoman + " = " + roman);
+	}
+	
+	/**
+	 * Testing valid Roman Numerals input
+	 * @param input - Roman Numerals
+	 * @return - true if valid
+	 */
+	
+	public boolean check(String input)
+	{
+		RomanTestCase test = new RomanTestCase();
+		String lRoman = "";
+		String rRoman = "";
+		boolean isRoman = true;
+		int lArabic = 0;
+		convertRomanNumbers(input);
+		arabic = calculate(input);
+		lRoman = toRomanNumbers(leftArabic);
+		rRoman = toRomanNumbers(rightArabic);
+		
+		if(!(lRoman.equals(leftRoman)) || (rRoman.equals("rightRoman")))
+		{
+			isRoman = false;
+		}
+		resetArabicValues();
+		resetRomanValues();
+		return isRoman;
+	
+	}
+}

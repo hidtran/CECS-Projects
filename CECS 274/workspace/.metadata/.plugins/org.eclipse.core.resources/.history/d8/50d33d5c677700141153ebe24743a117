@@ -1,0 +1,48 @@
+package edu.csulb.BinaryTree;
+
+public class Tree {
+	private Node leftChild;
+	private Node rightChild;
+	private Node root;
+	
+	public Tree(Node left, Node right, Node parent)
+	{
+		leftChild = left;
+		rightChild = right;
+		root = parent;
+	}
+	
+	
+
+	private class Node {
+		private int data;
+		private Node next;
+		
+		public Node()
+		{
+			data = 0;	//Null character
+			next = null;	//Null next node
+		}
+		public Node(int input)
+		{
+			data = input;	//New node character
+			next = null;	//Null next node
+		}
+		public int getData()
+		{
+			return data;	//Return a node character
+		}
+		public void setCharacter(int input)
+		{
+			data = input;	//Set new node characterStringString
+			next = null;	//Null next node
+		}
+		public void setNext(Node newNode)
+		{
+			next = newNode;	//Set next node
+		}
+		public Node getNext() {
+			return next;	//Return next node
+		}
+	}
+}	

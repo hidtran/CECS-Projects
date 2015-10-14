@@ -1,0 +1,26 @@
+package edu.csulb.romannumerals;
+import 
+
+public class RomanNumerals {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		Stack stack = new Stack();
+		stack.push('A');
+		stack.push('B');
+		stack.push('C');
+		stack.push('D');
+		stack.push('E');
+		stack.push('F');
+		stack.push('G');
+		System.out.println(stack.toString());
+		System.out.println(stack.pop());
+		System.out.println(stack.pop());
+		System.out.println(stack.pop());
+		System.out.println(stack.pop());
+		System.out.println(stack.toString());
+	}
+
+}

@@ -1,0 +1,322 @@
+import java.util.Scanner;
+
+public class BlackJack {
+	
+	public static final int HANDSIZE = 12;
+	public static Hand dealer = new Hand(HANDSIZE);
+	public static Hand player = new Hand(HANDSIZE);
+	public static Deck newDeck = new Deck();
+	public static Card newCard;
+	public static String unknownCard = "???? of ????";
+	public static Scanner input = new Scanner(System.in);
+
+	public static void main(String[] args) 
+	{	
+		menu();
+		
+		/**
+		Deck newDeck = new Deck();
+		Hand newHand = new Hand(12);
+		Card tempCard;
+		newDeck.shuffle();
+		
+		for(int index = 0; index < 12; index++)
+		{
+			tempCard = newDeck.deal();
+			newHand.addCard(tempCard);
+		}
+		newDeck.showDeck();
+		System.out.println("Your Hands Have:");
+		newHand.showHand();
+		System.out.println("Your total hand value: ");
+		System.out.println(newHand.handValue());
+		*/
+		
+		/**
+		Card getCard = new Card(5, 1);
+		System.out.println(getCard.toString());
+		*/
+		
+		/**
+		Deck getDeck = new Deck();
+		System.out.println("Current Deck: \n");
+		getDeck.showDeck();
+		System.out.println();
+		getDeck.shuffle();
+		System.out.println("Shuffle Deck: \n");
+		getDeck.showDeck();
+		*/
+	}
+	
+	public static void menu()
+	{
+		int userChoice = 0;
+		Deck playerDeck = new Deck();
+		Hand playerHand = new Hand(HANDSIZE);
+		Card playerCard;
+		boolean exit = false;
+		do{
+			System.out.println("Choose one of the following options: ");
+			System.out.println("1: Create New Deck");
+			System.out.println("2: Deal 4 Cards & Show The Remainder Cards");
+			System.out.println("3: Shuffle The Cards & Show The Cards");
+			System.out.println("4: Play The Black Jack Game");
+			System.out.println("5: Quit");
+			userChoice = input.nextInt();
+			
+			switch(userChoice){
+			case 1:
+				System.out.println("New Deck: \n");
+				playerDeck = new Deck();
+				playerDeck.showDeck();
+				playerHand.resetHand();
+				break;
+			case 2:
+				int total = 4;
+				for(int index = 0; index < total; index++)
+				{
+					playerCard = playerDeck.deal();
+					playerHand.addCard(playerCard);
+					playerDeck.removeCard(playerCard);
+				}
+				System.out.println("Your Current Hand:\n");
+				playerHand.showHand();
+				System.out.println("\nYour Remaining Deck:\n");
+				playerDeck.remainingDeck();
+				break;
+			case 3:
+				playerDeck.shuffle();
+				playerDeck.showDeck();
+				break;
+			case 4:
+				playBlackJack();
+				break;
+			case 5:
+				exit = true;
+				break;
+			default:
+				System.out.println("Invalid input");
+				break;
+			}
+		}while(!exit);
+	}
+
+	public int updateAmount(int total, int bet)
+	{
+		int betAmount = bet;
+		int totalAmount = total;
+		if(player.handValue() > 21 && dealer.handValue() < 21)
+		{
+			System.out.println("Dealer Wins!");
+			totalAmount = totalAmount - betAmount;
+		}
+		else if(player.handValue() < 21 && dealer.handValue() > 21)
+		{
+			System.out.println("Player Wins!");
+			totalAmount = totalAmount + betAmount;
+		}
+		else if(player.handValue() == dealer.handValue())
+		{
+			System.out.println("Dealer Wins!");
+			totalAmount = totalAmount + betAmount;
+		}
+		else if(player.handValue() < 21 && dealer.handValue() < 21)
+		{
+			if(player.handValue() > dealer.handValue())
+			{
+				System.out.println("Player Wins!");
+				totalAmount = totalAmount + betAmount;
+			}
+			else
+			{
+				System.out.println("Dealer Wins!");
+				totalAmount = totalAmount + betAmount;
+			}
+		}
+		else if(player.handValue() == 21 || dealer.handValue() == 21)
+		{
+			if(dealer.handValue() < player.handValue())
+			{
+				System.out.println("Player Wins!");
+				totalAmount = totalAmount + betAmount;
+			}
+			else if(dealer.handValue() == player.handValue())
+			{
+				System.out.println("Dealer Wins!");
+				totalAmount = totalAmount - betAmount;
+			}
+			else if(dealer.handValue() > player.handValue())
+			{
+				System.out.println("Dealer Wins!");
+				totalAmount = totalAmount - betAmount;
+			}
+		}
+		return totalAmount;
+	}
+	
+	public static void draw()
+	{
+		boolean exit = false;
+		if(player.handValue() < 21)
+		{
+			do
+			{
+				System.out.println("Would you like to hit (Y or N)?");
+				String choose = input.next().toLowerCase();
+				switch(choose.charAt(0))
+				{
+				case 'n':
+					exit= true;
+					System.out.println("Dealer Hand Value: " + dealer.handValue());
+					dealer.showHand();
+					break;
+				case 'y':
+					//deal new card to player's hand
+					newCard = newDeck.deal();
+					player.addCard(newCard);
+					System.out.println("Player gets a " + newCard.toString());
+					System.out.println("Player Hand Total: " + player.handValue());
+					player.showHand();
+					break;
+				default:
+					System.out.println("Invalid Selection.");
+					break;
+				}
+			}while(!exit && player.handValue() < 21);
+		}
+		else if(dealer.handValue() < 21 && player.handValue() < 21)
+		{
+			System.out.println("Dealer Hand Value: " + dealer.handValue());
+			dealer.showHand();
+			do
+			{
+				if(dealer.handValue() <= 16 || player.handValue() > dealer.handValue())
+				{
+					newCard = newDeck.deal();
+					dealer.addCard(newCard);
+					System.out.println("Dealer draws a " + newCard.toString());
+					newDeck.removeCard(newCard);
+				}
+				else
+				{
+					System.out.println("Dealer Hand Total: " + dealer.handValue());
+					dealer.showHand();
+					exit = true;
+				}
+			}while(!exit);
+			System.out.println("Player Hand Value: " + player.handValue());
+			System.out.println("Dealer Hand Value: " + dealer.handValue());
+		}
+		player.resetHand();
+		dealer.resetHand();
+	}
+	
+
+	public static void playBlackJack()
+	{
+		int amount = 100;
+		int bet = 0;
+		boolean out = false;
+		String showCard = "";
+		BlackJack bj = new BlackJack();
+		do
+		{
+			System.out.println("You have $" + amount + ". How much would like to bet (0 to quit)?");
+			bet = input.nextInt();
+			if(bet > amount || bet <= 0)
+			{
+				System.out.println("Insufficent Amount To Bet.");
+				out = true;
+				break;
+			}
+			for(int i = 0; i < 2; i++)
+			{
+				//add cards to player's hand
+				newCard = newDeck.deal();
+				player.addCard(newCard);
+				newDeck.removeCard(newCard);
+				for(int j = 0; j <= i; j++)
+				{
+					//add cards to dealer's hand
+					newCard = newDeck.deal();
+					dealer.addCard(newCard);
+					newDeck.removeCard(newCard);
+					if(j == 1)
+					{
+						showCard = newCard.toString();
+					}
+				}
+			}
+			//Display player hands & hands value on player side
+			System.out.println("Your Hand Value: " + player.handValue());
+			player.showHand();
+			//Show dealer second card to the player
+			System.out.println("\nDealer Hand:\n");
+			System.out.println(unknownCard);
+			System.out.println(showCard);
+			draw();
+			if(player.handValue() < 21 && dealer.handValue() < 21)
+			{
+				amount = bj.updateAmount(amount, bet);
+			}
+			else if(player.handValue() > 21 && dealer.handValue() < 21)
+			{
+				amount = bj.updateAmount(amount,bet);
+			}
+			else if(player.handValue() < 21 && dealer.handValue() > 21)
+			{
+				amount = bj.updateAmount (amount, bet);
+			}
+			else if(player.handValue() >= 21 || dealer.handValue() >= 21)
+			{
+				amount = bj.updateAmount(amount, bet);
+			}
+		}while(amount >0 && !out);
+	}
+}
+		/**
+			if(player.handValue() > 21)
+			{
+				System.out.println("Dealer Wins!");
+				amount -= choice;
+			}
+			player.resetHand();
+			dealer.resetHand();
+		}
+		
+			
+	}
+		while(dealer.handValue() <= 16)
+		{	
+			newCard = newDeck.draw();
+			dealer.addCard(newCard);
+			showCard = newCard.toString();
+			System.out.println("Dealer Hand Total: " + dealer.handValue());
+			dealer.showHand();
+			if(dealer.handValue() > 21)
+			{
+			amount -= choice;
+			System.out.println("Player Wins!");
+			continue;
+			}
+		}
+		System.out.println("Player Hand Value: " + player.handValue());
+		System.out.println("Dealer Hand Value: " + dealer.handValue());
+		if(player.handValue() > dealer.handValue())
+		{
+		amount += choice;
+		System.out.println("Player wins!");
+		}
+		else if(player.handValue() < dealer.handValue())
+		{
+		amount -= choice;
+		System.out.println("Dealer wins!");
+		}
+	}
+}
+System.out.println("Thank you for playing");
+player.resetHand();
+dealer.resetHand();
+}
+*/
+

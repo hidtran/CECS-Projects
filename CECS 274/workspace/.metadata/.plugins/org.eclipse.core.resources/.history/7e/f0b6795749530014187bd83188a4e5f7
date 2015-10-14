@@ -1,0 +1,90 @@
+import java.util.Scanner;
+import java.util.ArrayList;
+
+public class HappyNumbers {
+	
+	private static ArrayList numList = new ArrayList();
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		playGame();
+	}
+	
+	public static void playGame()
+	{
+		Scanner scan = new Scanner(System.in);
+		boolean exit = false;
+		while(!exit)
+		{
+			System.out.println("Please Enter a positive integer (0 to quit): ");
+			int input = scan.nextInt();
+			numList.add(input);
+			if(input > 0)
+			{
+				dissect(input);
+			}
+			else if(input == 0)
+			{
+				System.out.println("Thank you for playing.");
+				exit = true;
+			}
+			else
+			{
+				System.out.println("Invalid iput.");
+			}
+		}
+	}
+	public static void dissect(int num)
+	{
+		int[] digit = new int[10];
+		int remainder = 0;
+		while(num != 1)
+		{
+			for(int index = 0 ; index < digit.length; index++)
+			{
+				remainder = num % 10;
+				num /= 10;
+				digit[index] = remainder;
+			}
+			square(digit);
+		}
+	}
+	
+	public static void square(int[] temp)
+	{
+		int total = 0;
+		for(int index = 0 ; index < temp.length; index++)
+		{
+			total += temp[index] * temp[index];
+		}
+		converge(total);
+	}
+	
+	public static void converge(int num)
+	{
+		if(num == 1)
+		{
+			numList.add(num);
+			System.out.println("Sequence: " + numList + "is a Happy Number");
+			numList.clear();
+		}
+		else
+		{
+			for(int index = 0 ; index < numList.size(); index++)
+			{
+				if(!numList.contains(num))
+				{
+					numList.add(num);
+					dissect(num);
+				}
+				else
+				{
+					numList.add(num);
+					System.out.println("Sequence: " + numList + "is not a Happy Number");
+					numList.clear();
+				}
+			}
+		}
+	}
+}

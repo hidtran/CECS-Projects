@@ -1,0 +1,39 @@
+package edu.csulb.romannumerals;
+import java.util.Scanner;
+
+public class RomanNumerals {
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		/*
+		 * Stack stack = new Stack();
+		stack.push('A');
+		stack.push('B');
+		stack.push('C');
+		stack.push('D');
+		stack.push('E');
+		stack.push('F');
+		stack.push('G');
+		System.out.println(stack.toString());
+		System.out.println(stack.pop());
+		System.out.println(stack.pop());
+		System.out.println(stack.pop());
+		System.out.println(stack.pop());
+		System.out.println(stack.toString());
+		*/
+		Numbers num = new Numbers();
+		Scanner scan = new Scanner(System.in);
+		System.out.println("Enter Roman Numerals: ");
+		String name = scan.nextLine();
+		num.convertRomanNumbers(name);
+		System.out.println("Total Value: " + num.calculateRomanNumbers());
+		/*num.toArabic(name);
+		System.out.println("Arabic Numbers: " + num.getArabicNumbers());
+		int number = scan.nextInt();
+		num.toRoman(number);
+		System.out.println("Roman Numbers: " + num.getRomanNumbers());
+		*/
+	}
+
+}

@@ -1,0 +1,34 @@
+
+public class CardSearch {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		Deck newDeck = new Deck();
+		newDeck.shuffle();
+		Card newCard = new Card(3, 2);
+		System.out.println("The Count: " + linearSearch(newCard));
+
+	}
+	
+	public static int linearSearch(Card tempCard)
+	{
+		Card[] searchCard = new Card[52];
+		int count = 0;
+		boolean search = false;
+		while(!search)
+		{
+			for(int index = 0; index < searchCard.length; index++)
+			{
+				if(searchCard[index] == tempCard)
+				{
+					search = true;
+					count = index;
+				}
+			}
+		}
+		return count;
+	}
+
+}

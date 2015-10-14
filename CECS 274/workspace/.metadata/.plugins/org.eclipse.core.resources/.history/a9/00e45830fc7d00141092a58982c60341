@@ -1,0 +1,69 @@
+package Heap;
+import java.util.*;
+
+public class HeapTest {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		menu();
+
+	}
+	
+	public static void menu()
+	{
+		Scanner scan = new Scanner(System.in);
+		Random random = new Random();
+		Tree newTree = new Tree();
+		int[] array;
+		int number = 0;
+		int input = 0;
+		boolean exit = false;
+		do
+		{
+			System.out.println("Choose one of the following options: ");
+			System.out.println("1. Generate random numbers into Binary Tree of array");
+			System.out.println("2. Display Dinary Tree");
+			System.out.println("3. Convert and display binary tree into Heap");
+			System.out.println("4. Sort and display Heap");
+			System.out.println("5. Display heap in-order");
+			System.out.println("6. Quit");
+			input = scan.nextInt();
+			switch(input)
+			{
+				case 1:
+					boolean out = false;
+					while(newTree.size() <= 31)
+					{
+						number = random.nextInt(89) + 10;	//Random numbers between 10 & 99
+						newTree.insert(number);
+					}
+					newTree.display();
+					newTree.rootValue();
+					array = newTree.toArray();
+					System.out.println("Array list: ");
+					for(int index = 0; index < array.length; index++)
+					{
+						System.out.print(array[index]);
+					}
+					break;
+				case 2:
+					break;
+				case 3:
+					break;
+				case 4:
+					break;
+				case 5: 
+					break;
+				case 6:
+					System.out.println("Thank you for playing");
+					exit = true;
+					break;
+				default:
+					System.out.println("Invalid input");
+					break;		
+			}
+		}while(!exit);
+	}
+}

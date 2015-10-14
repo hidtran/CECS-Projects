@@ -1,0 +1,8 @@
+Association: uses a
+Ex:a Class Man uses a Class Pen
+Aggregation: has a
+Ex:a Class Man has a Class Car ( Car is still there when Man die )
+Composition: contains a
+Ex:a Class Man contains a Class Heart ( When Man die, Heart die )
+Inheritance: is a
+Ex:a Class Man is a Class Human ( Man is a Human )

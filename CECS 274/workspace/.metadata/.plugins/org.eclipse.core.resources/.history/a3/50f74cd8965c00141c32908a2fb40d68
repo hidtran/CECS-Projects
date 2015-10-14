@@ -1,0 +1,169 @@
+package edu.csulb.romannumerals;
+
+public class Numbers {
+	private static final int ROMANI = 1;
+	private static final int ROMANX = 10;
+	private static final int ROMANV = 5;
+	private static final int ROMANL = 50;
+	private static final int ROMANC = 100;
+	private static final int ROMAND = 500;
+	private static final int ROMANM = 1000;
+	private char roman;
+	private int arabic;
+	private Stack s;
+	private Queue q;
+	
+	public Numbers()
+	{
+		roman = ' ';
+		arabic = 0;
+		s = new Stack();
+		q = new Queue();
+	}
+	
+	public void setRomanNumbers(char temp)
+	{
+		roman = temp;
+	}
+	
+	public char getRomanNumbers()
+	{
+		return roman;
+	}
+	
+	
+	public void setArabicNumbers(int number)
+	{
+		arabic = number;
+	}
+	
+	public int getArabicNumbers()
+	{
+		return arabic;
+	}
+	
+	public void toArabic(char name)
+	{	
+		if(name == 'I')
+		{
+			arabic = ROMANI;
+		}
+		else if(name == 'V')
+		{
+			arabic = ROMANV;
+		}
+		else if(name == 'X')
+		{
+			arabic = ROMANX;
+		}
+		else if(q.peek() == 'L')
+		{
+			arabic = ROMANL;
+		}
+		else if(name == 'C')
+		{
+			arabic = ROMANC;
+		}
+		else if(name == 'D')
+		{
+			arabic = ROMAND;
+		}
+		else if(name == 'M')
+		{
+			arabic = ROMANM;
+		}
+
+	}
+	
+	public void toRoman(int number)
+	{
+		if(number == 1)
+		{
+			roman = 'I';
+		}
+		else if(number == 5)
+		{
+			roman = 'V';
+		}
+		else if(number == 10)
+		{
+			roman = 'X';
+		}
+		else if(number == 50)
+		{
+			roman = 'L';
+		}
+		else if(number == 100)
+		{
+			roman = 'C';
+		}
+		else if(number == 500)
+		{
+			roman = 'D';
+		}
+		else if(number == 1000)
+		{
+			roman = 'M';
+		}
+	}
+	
+	public void convertRomanNumbers(String input)
+	{
+		for(int i = 0; i < input.length(); i++)
+		{
+			q.enqueue(input.charAt(i));
+			if(input.charAt(i) == '*' || input.charAt(i) == '/' || input.charAt(i) == '+' || input.charAt(i) == '-')
+			{
+				for(int j = i + 1; j < input.length(); j++)
+				{
+					s.push(input.charAt(j));
+				}
+				break;
+			}
+		}
+	}
+	
+	public int calculateRomanNumbers()
+	{ 
+		int total = 0;
+		int value1 = 0;
+		int value2 = 0;
+		roman = q.dequeue();
+		toArabic(roman);
+		value1 = arabic;
+		if(arabic % 10 == 1 || arabic % 10 == 0)
+		{
+			if(q.peek() == 'X' || q.peek() == 'C' || q.peek() == 'M')
+			{
+				roman = q.dequeue();
+				toArabic(roman);
+				value1 = arabic - value1;
+				total += value1;
+			}
+			else
+			{
+				total += arabic;
+			}
+		}
+		else
+		{
+			if(q.peek() == 'V' || q.peek() == 'L' || q.peek() == 'D')
+			{
+				roman = q.dequeue();
+				toArabic(roman);
+				value1 = arabic - value1;
+				total += value1;
+			}
+			else
+			{
+				total += arabic;
+			}
+		}
+		return total;
+	}
+	
+	public boolean checkRomanNumbers(String input)
+	{
+		return true;
+	}
+}

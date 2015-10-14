@@ -1,0 +1,77 @@
+package edu.csulb.BinaryTree;
+import java.util.*;
+
+public class TreeTest {
+
+	/**
+	 * @param args
+	 */
+	public static void main(String[] args) {
+		menu();
+
+	}
+	
+	public static void menu()
+	{
+		Scanner scan = new Scanner(System.in);
+		Tree newTree = new Tree();
+		int input = 0;
+		boolean exit = false;
+		while(!exit)
+		{
+			System.out.println("Choose one of the following options: ");
+			System.out.println("1. Add item to tree");
+			System.out.println("2. Delete item from tree (if item is not found, return an error message.)");
+			System.out.println("3. Find item (Tell what level item is on)");
+			System.out.println("4. Balance Tree");
+			System.out.println("5. List content of tree (in order)");
+			System.out.println("6. Display Statistics");
+			System.out.println("7. Quit");
+			input = scan.nextInt();
+			switch(input)
+			{
+				case 1:
+					boolean out = false;
+					while(!out)
+					{
+						System.out.println("Enter an integer insert to the tree: ");
+						try
+						{
+							input = scan.nextInt();
+							if(scan.hasNextInt())
+							{
+								newTree.insert(input);;
+							}
+							out = true;
+						}
+						catch(Exception e)
+						{
+							System.out.println("Invalid Input");
+							scan.next();
+							out = false;
+						}
+					}
+					break;
+				case 2:
+					break;
+				case 3:
+					break;
+				case 4:
+					break;
+				case 5:
+					break;
+				case 6:
+					break;
+				case 7:
+					System.out.println("Thank you for playing");
+					exit = true;
+					break;
+				default:
+					System.out.println("Invalid Input");
+					break;
+			}
+		}
+		
+	}
+
+}

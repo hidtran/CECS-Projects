@@ -1,0 +1,87 @@
+public class Card 
+{
+	int suite = 0;
+	int value = 0;
+	
+	public Card(int initialValue, int initialSuite)
+	{
+		value = initialValue;
+		suite = initialSuite; 
+	}
+	
+	//Return card value
+	
+	public int getValue()
+	{
+		return value;
+	}
+	
+	//Input card value
+	public void setValue(int amount)
+	{
+			value = amount;		
+	}
+	
+	//Return a card suite
+	public int getSuite()
+	{
+		return suite;
+	}
+	
+	//Set a card suite
+	public void setSuite(int amount)
+	{
+		suite = amount;
+	}	
+	
+	public String toString()
+	{
+		String stringValue = "";
+		String stringSuite = "";
+		for (suite = 1; suite <= 4; suite++)
+		{
+			if(suite == 1)
+			{
+				stringSuite = "Spade";
+			}
+			else if(suite == 2)
+			{
+				stringSuite = "Club";
+			}
+			else if(suite == 3)
+			{
+				stringSuite = "Diamond";
+			}
+			else if(suite == 4)
+			{
+				stringSuite = "Heart";
+			}
+			for(value = 1; value <= 13; value++)
+			{
+				if(value == 1)
+				{
+					stringValue = "A";
+				}
+				else if(value == 11)
+				{
+					stringValue = "J";
+				}
+				else if(value == 12)
+				{
+					stringValue = "Q";
+				}
+				else if(value == 13)
+				{
+					stringValue = "K";
+				}
+				
+				else
+				{
+					stringValue = String(value);
+				}
+			}
+		}
+		
+		return ("Card #: " + stringValue + " of " + stringSuite);
+	}
+}

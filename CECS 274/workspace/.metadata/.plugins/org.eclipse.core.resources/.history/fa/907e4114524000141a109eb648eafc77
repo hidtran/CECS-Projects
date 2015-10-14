@@ -1,0 +1,99 @@
+import java.util.Scanner;
+
+public class BlackJack {
+
+	public static void main(String[] args) 
+	{
+		menu();
+		/**
+		Deck newDeck = new Deck();
+		Hand newHand = new Hand(12);
+		Card tempCard;
+		newDeck.shuffle();
+		
+		for(int index = 0; index < 12; index++)
+		{
+			tempCard = newDeck.draw();
+			newHand.addCard(tempCard);
+		}
+		newDeck.showDeck();
+		System.out.println("Your Hands Have:");
+		newHand.showHand();
+		System.out.println("Your total hand value: ");
+		System.out.println(newHand.handValue());
+		*/
+		
+		/**
+		Card getCard = new Card(5, 1);
+		System.out.println(getCard.toString());
+		*/
+		
+		/**
+		Deck getDeck = new Deck();
+		System.out.println("Current Deck: \n");
+		getDeck.showDeck();
+		System.out.println();
+		getDeck.shuffle();
+		System.out.println("Shuffle Deck: \n");
+		getDeck.showDeck();
+		*/
+	
+	}
+	
+	public static void menu()
+	{
+		Scanner input = new Scanner(System.in);
+		Deck playerDeck = new Deck();
+		Hand playerHand = new Hand(52);
+		Card playerCard;
+		int userChoice = 0;
+		boolean exit = false;
+		
+		do{
+			
+			System.out.println("Choose one of the following options: ");
+			System.out.println("1: Create New Deck");
+			System.out.println("2: Deal 4 Cards & Show The Remainder Cards");
+			System.out.println("3: Shuffle The Cards & Show The Cards");
+			System.out.println("4: Play The Black Jack Game");
+			System.out.println("5: Quit");
+			userChoice = input.nextInt();
+			
+			switch(userChoice){
+			case 1:
+				System.out.println("New Deck: \n");
+				playerDeck = new Deck();
+				playerDeck.showDeck();
+				break;
+			case 2:
+				for(int index = 0; index < 4; index++)
+				{
+					playerCard = playerDeck.draw();
+					playerHand.addCard(playerCard);
+					playerDeck.removeCard(playerCard);
+				}
+				System.out.println("Your Remaining Deck:\n");
+				playerDeck.remainingDeck();
+				System.out.println("\nYour Current Hand:\n");
+				playerHand.showHand();
+				
+				break;
+			case 3:
+				playerDeck.shuffle();
+				playerDeck.showDeck();
+				break;
+			case 4:
+				break;
+			case 5:
+				exit = true;
+				break;
+			default:
+				System.out.println("Invalid input");
+				break;
+			}
+			
+		}while(!exit);
+		
+		
+	}
+}

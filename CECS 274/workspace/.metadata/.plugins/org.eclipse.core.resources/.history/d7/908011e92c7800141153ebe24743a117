@@ -1,0 +1,271 @@
+package edu.csulb.BinaryTree;
+
+public class Tree {
+	private Node root = null;
+	private int length = 0;
+	
+	public Tree()
+	{
+		root = null;
+		length = 0;
+	}
+	
+	public Tree(int number)
+	{
+		root = new Node(number);
+		length = 0;
+	}
+	
+	public void insert(int number)
+	{
+		root = add(root, number);
+	}
+	
+	public Node add(Node parent, int number)
+	{
+		if(parent == null)
+		{
+			parent = new Node(number);
+		}
+		else
+		{
+			if(number == parent.data)
+			{
+				System.out.println("Duplicate item on tree list");
+			}
+			else if(number < parent.data)
+			{
+				parent.left = add(parent.left, number);
+			}
+			else if(number > parent.data)
+			{
+				parent.right = add(parent.right, number);
+			}
+		}
+		return parent;
+	}
+	
+	public void remove(int number)
+	{
+		root = delete(root, number);
+	}
+	
+	public Node delete(Node parent, int number)
+	{
+
+		Node grandparent = null;
+		boolean found = false;
+		if(parent.data == number)
+		{
+			if (parent.left == null && parent.right == null)
+			{
+				parent = null;
+			}
+			else if(parent.left == null || parent.right == null)
+			{
+				if(parent.left == null)
+				{
+					grandparent = parent.right;
+				}
+				else if(parent.right == null)
+				{
+					grandparent = parent.left;
+				}
+			}
+			else
+			{
+				Node child = parent;
+				while(child != null)
+				{
+					if(number < child.right.data)
+					{
+						child = child.right;
+					}
+					else
+					{
+						child = child.left;
+					}
+				}
+				parent.data = child.data;
+				grandparent = parent;
+				found = true;
+			}
+		}
+		else
+		{
+			grandparent = parent;
+			if(parent.data > number)
+			{
+				parent = delete(parent.left, number);
+			}
+			else
+			{
+				parent = delete(parent.right, number);
+			}
+		}
+		if(!found)
+		{
+			System.out.println("Item Not Found");
+		}
+		length--;
+		return grandparent;
+	}
+	
+	public void search(int number)
+	{
+		root = find(root, number);
+	}
+	
+	public Node find(Node current, int number)
+	{
+		int count = 0;
+		boolean found = false;
+		while(!found)
+		{
+			if(current == null)
+			{
+				if(!found)
+				{
+					System.out.println("Item is not found.");
+				}
+				found = true;
+			}
+			else
+			{
+				if(current.data == number)
+				{
+					System.out.println("Item is on level " + count);
+					found = true;
+				}
+				else if(current.data > number)
+				{
+					current = find(current.left, number);
+					count++;
+				}
+				else if(current.data < number)
+				{
+					current = find(current.right, number);
+					count++;
+				}
+			}
+		}
+		return current;
+	}
+	
+	public Node balance(Node parent, int number)
+	{
+		return parent;
+	}
+	
+	public int getSize()
+	{
+		return length;
+	}
+	public static void displayTree(Node parent)
+	{
+		if(parent == null)
+		{
+			return;
+		}
+		displayTree(parent.left);
+		System.out.println("Tree List: " + parent.data + " ");
+		displayTree(parent.right);
+	}
+	public void display()
+	{
+		displayTree(root);
+	}
+	
+	public void displayStats()
+	{
+		
+	}
+
+	private class Node {
+		private int data;
+		private Node left;
+		private Node right;
+		
+		public Node()
+		{
+			data = 0;	//Null character
+			left = null;	//Null next node
+			right = null;
+		}
+		public Node(int input)
+		{
+			data = input;	//New node character
+			left = null;	//Null left node
+			right = null;	//Null right Node
+		}
+		public int getData()
+		{
+			return data;	//Return a node character
+		}
+		public void setData(int input)
+		{
+			data = input;	//Set new node characterStringString
+			left = null;	//Null left node
+			right = null;	//Null right node
+		}
+		public void setChildren(Node leftSide, Node rightSide)
+		{
+			left = leftSide;	//Set left node
+			right = rightSide; //Set right node
+		}
+		public Node getLeftChildren() {
+			return left;	//Return left node
+		}
+		
+		public Node getRightChildren()
+		{
+			return right;	//Return right node
+		}
+	}
+}	
+
+/*
+ * if(parent.left == null || parent.right == null)
+		{
+			Node child;
+			if(parent.left == null)
+			{
+				child = parent.right; 
+			}
+			else
+			{
+				child = parent.left;
+			}
+			
+			if(grandparent == null)
+			{
+				root = grandparent;
+			}
+			else if(grandparent.left == parent)
+			{
+				grandparent.left = child;
+			}
+			else
+			{
+				grandparent.right = child;
+			}
+		}
+		
+		leftChild = parent;
+		rightChild = parent.right;
+		while(rightChild.left != null)
+		{
+			leftChild = rightChild;
+			rightChild = rightChild.left;
+		}
+		
+		parent.data = rightChild.data;
+		if(leftChild == parent)
+		{
+			leftChild.right = rightChild.right;
+		}
+		else
+		{
+			leftChild.left = rightChild.right;
+		}
+	*/

@@ -1,0 +1,539 @@
+package Heap;
+
+/**
+ * Creating Binary Search Tree that's able to insert, remove, find, display
+ * 
+ * @author tom
+ *
+ */
+public class Tree {
+	private Node root = null;	//Null root node
+	
+	/**
+	 * Empty tree
+	 */
+	public Tree()
+	{
+		root = null;	//Empty root node
+	}
+	
+	/**
+	 * Non-empty tree
+	 * @param number
+	 */
+	public Tree(int number)
+	{
+		root = new Node(number);	//Non-empty root node
+	}
+	
+	/**
+	 * Recursive help to insert item into tree
+	 * @param number - user input integer
+	 */
+	public void insert(int number)
+	{
+		root = add(root, number);
+	}
+	
+	/**
+	 * Insert new item into tree list
+	 * @param parent - parent node pointer
+	 * @param number - integer to be insert
+	 * @return	- update tree list
+	 */
+	private Node add(Node parent, int number)
+	{
+		if(parent == null)
+		{
+			parent = new Node(number);	//Insert into root pointer node
+		}
+		else
+		{
+			if(number == parent.data)
+			{
+				System.out.println("Duplicate item on tree list");	//Error message for duplicate item
+			}
+			else if(number < parent.data)
+			{
+				parent.left = add(parent.left, number);	//Insert into left pointer node
+			}
+			else if(number > parent.data)
+			{
+				parent.right = add(parent.right, number);	//Insert into right pointer node
+			}
+		}
+		return parent;
+	}
+	
+	/**
+	 * Remove an item from tree list
+	 * @param number - item to be remove
+	 * @return - update tree list
+	 */
+	public Node remove(int number)
+	{
+		Node current = root;	//Current pointer node
+		Node parent = root;		//Parent pointer node
+		Node grandparent = null;
+		boolean foundLeftChild = false;	
+		
+		while(current.data != number)
+		{
+			parent = current;
+			if(number < current.data)
+			{
+				foundLeftChild = true;	//Left child exist
+				current = current.left;
+			}
+			else
+			{
+				foundLeftChild = false;	//Right child exist
+				current = current.right;
+			}
+			if(current == null)
+			{
+				System.out.println("Item not found");	//Unable to find item in the tree list
+				return root;
+			}
+		}
+		
+		//parent with no children
+		if(current.left == null && current.right == null)
+		{
+			if(current == root)
+			{
+				root = null;	//No children
+			}
+			else if(foundLeftChild)
+			{
+				parent.left = null;		//No parent left child
+			}
+			else
+			{
+				parent.right = null;	//No parent right child
+			}
+		}
+		//parent with left children
+		else if(current.right == null)
+		{
+			if(current == root)
+			{
+				root = current.left;	//No right child
+			}
+			else if(foundLeftChild)
+			{
+				parent.left = current.left;		//No right child
+			}
+			else
+			{
+				parent.right = current.left;	//No left child
+			}
+		}
+		//parent with right children
+		else if(current.left == null)
+		{
+			if(current == root)
+			{
+				root = current.right;	//No left child
+			}
+			else if(foundLeftChild)
+			{
+				parent.left = current.right;	//No right child
+			}
+			else
+			{
+				parent.right = current.left;	//No left child
+			}
+		}
+		//parent with 2 children
+		else
+		{
+			Node child = delete(current);	//replace node pointer
+			if(current == root)
+			{
+				root = child;	//No children
+			}
+			else if(foundLeftChild)
+			{
+				parent.left = child;	//No right child
+			}
+			else
+			{
+				parent.right = child;	//No left child
+			}
+			child.left = current.left;
+			grandparent = child;	//updated tree list
+		}
+		System.out.println(number + " removes from the tree list");
+		return grandparent;
+	}
+	
+	/**
+	 * Recursive helper to remove item from tree list
+	 * @param child	- tree list
+	 * @return - update tree list
+	 */
+	private Node delete(Node child)
+	{
+		Node parent = child;	//parent node pointer
+		Node replaceNode = child;	//replace node pointer
+		
+		Node current = child.right;		//current node pointer
+		
+		while(current != null)
+		{
+			parent = child;		//updated parent pointer
+			replaceNode = current;	
+			current = current.left;		//updated current node pointer
+		}
+		return replaceNode;
+	}
+	
+	/**
+	 * Search for an item in tree list
+	 * @param number - item to be search
+	 */
+	public void search(int number)
+	{
+		Node current = root;	//Current node pointer
+		int count = 0;	//tree level counter
+		boolean found = false;
+		while(!found && current != null)
+		{
+			if(current.data == number)
+			{
+				System.out.println("Item is on level " + count++);	//Current tree level item is in
+				found = true;
+			}
+			else if(current.data > number)
+			{
+				current = current.left;		//item on left side of tree list
+				count++;
+			}
+			else if(current.data < number)
+			{
+				current = current.right;	//item on right side of tree list
+				count++;
+			}
+		}
+		if(current == null)
+		{
+			if(!found)
+			{
+				System.out.println("Item is not found.");	//Unable to find item
+			}
+		}
+	}
+	
+	/**
+	 * Balance tree list
+	 * @param parent - parent node pointer
+	 * @param number - item to balance
+	 * @return - update tree list
+	 */
+	/*public Node balance(Node parent)
+	{
+		int length = 0;
+		Node current = parent;
+		int leftSize = getSize(parent.left) - 1;
+		int rightSize = getSize(parent.right) - 1;
+		if(leftSize > rightSize)
+		{
+			length = rightSize - leftSize;
+			if(length < -1)
+			{
+				
+			}
+		}
+		return parent
+	}
+	*/
+	
+	/**
+	 * Determine depth of tree list
+	 * @return - depth of tree
+	 */
+	public int depth()
+	{
+		int length = depth(root);
+		return length;
+	}
+	
+	/**
+	 * Recursive helper to determine depth of tree list
+	 * @param current - current tree list
+	 * @return - update tree list
+	 */
+	private int depth(Node current)
+	{
+		if(current == null)
+		{
+			return 0;
+		}
+		else
+		{
+			int left = depth(current.left);	//Count tree left side
+			int right = depth(current.right);	///Count tree right side
+			if(left > right)
+			{
+				return left+1;
+			}
+			else
+			{
+				return right+1;
+			}
+		}
+	}
+	
+	/**
+	 * Determine total number of items in the tree
+	 * @return - total number of items
+	 */
+	public int size()
+	{
+		int length = size(root);
+		return length;
+		
+	}
+	
+	/**
+	 * Recursive helper to determine total number of items in the tree
+	 * @param current - current tree list
+	 * @return - total number of items
+	 */
+	private int size(Node current)
+	{
+		int length = 0;
+		if(current == null)
+		{
+			return length;
+		}
+		else
+		{
+			length = 1 + size(current.left) + size(current.right); //Recursive call for tree size
+		}
+		return length;
+	}
+	
+	public int[] toArray()
+	{
+		Node current = root;
+		int[] array = new int[32];
+		int index = 0;
+		toArray(current, array, index);
+		return array;
+	}
+	
+	private static int toArray(Node parent, int[] array, int index)
+	{
+		if(parent == null)
+		{
+			return 0;
+		}
+		else
+		{
+			array[index++] = parent.data;
+			if(parent.left != null)
+			{
+				index = toArray(parent.left, array, index);
+			}
+			if(parent.right != null)
+			{
+				index = toArray(parent.right, array, index);
+			}
+		}
+		return index;
+	}
+	
+	/**
+	 * Print current tree list
+	 */
+	public void display()
+	{
+		String divider1 = "----------------------";
+		String divider2 = "----------";
+		String divider3 = "----";
+		String divider4 = "--";
+		System.out.printf("%79d %n", root.data);
+		System.out.printf("%54d %s %c %s %d %n", root.left.data, divider1, '^', divider1, root.right.data);
+		System.out.printf("%40d %s %c %s %d", root.left.left.data, divider2, '^', divider2, root.left.right.data);
+		System.out.printf("%30d %s %c %s %d %n", root.right.left.data, divider2, '^', divider2, root.right.right.data);
+		System.out.printf("%32d %s %c %s %d", root.left.left.left.data, divider3, '^', divider3, root.left.left.right.data);
+		System.out.println();
+	}
+	
+	/**
+	 * Recursive helper to print current tree list
+	 * @param parent - current tree list
+	 */
+	private static void inOrderSearch(Node parent)
+	{
+		if(parent == null)
+		{
+			return;
+		}
+		inOrderSearch(parent.left);
+		System.out.println("Tree List: " + parent.data + " ");
+		inOrderSearch(parent.right);
+	}
+	
+	/**
+	 * Recursively printing tree in pre-order search
+	 * @param parent
+	 */
+	private static void preOrderSearch(Node parent)
+	{
+		if(parent == null)
+		{
+			return;
+		}
+		System.out.println("Tree Pre-Order List: " + parent.data + " " );
+		preOrderSearch(parent.left);
+		preOrderSearch(parent.right);
+	}
+	
+	/**
+	 * Recursively printing tree in post-order search
+	 * @param parent
+	 */
+	private static void postOrderSearch(Node parent)
+	{
+		if (parent == null)
+		{
+			return;
+		}
+		preOrderSearch(parent.left);
+		preOrderSearch(parent.right);
+		System.out.println("Tree Pre-Order List: " + parent.data + " " );
+	}
+	
+	/**
+	 * In-order search w/o recursive
+	 * @param parent
+	 */
+	public static void morrisSearch(Node parent)
+	{
+		Node current = parent;
+		Node previous = null;
+		if(parent == null)
+		{
+			return;
+		}
+		while(current != null)
+		{
+			if(current.left == null)
+			{
+				//rightChild = (2 * index) + 1;
+				System.out.println("Tree List: " + parent.data);
+				parent = parent.right;
+			}
+			else
+			{
+				previous = current;
+				while(previous.right != null && previous != current)
+				{
+					previous = previous.right;
+				}
+				if(previous.right == null)
+				{
+					previous = current;
+					current = current.left;
+				}
+				else
+				{
+					previous.right = null;
+					System.out.println("Tree List: "  + current.data);
+					current = current.right;
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Print current root value
+	 */
+	public void rootValue()
+	{
+		System.out.println("Root value: " + root.data);
+	}
+
+	/**
+	 * Stores reference to next item in the tree
+	 * @author tom
+	 *
+	 */
+	private class Node {
+		private int data; 	////Node can store data as integer but code can be tweaked to store ArrayList or any other java object.
+		private Node left;	//stores reference to next left item in the tree
+		private Node right;	//stores reference to next right item in the tree
+		
+		/**
+		 * Empty node constructor
+		 */
+		public Node()
+		{
+			data = 0;	//Null character
+			left = null;	//Null next node
+			right = null;
+		}
+		
+		/**
+		 * Non-empty node constructor
+		 * @param input
+		 */
+		public Node(int input)
+		{
+			data = input;	//New node character
+			left = null;	//Null left node
+			right = null;	//Null right Node
+		}
+		
+		/**
+		 * Get current node store data
+		 * @return
+		 */
+		public int getData()
+		{
+			return data;	//Return a node character
+		}
+		
+		/**
+		 * Set current node store data
+		 * @param input
+		 */
+		public void setData(int input)
+		{
+			data = input;	//Set new node characterStringString
+			left = null;	//Null left node
+			right = null;	//Null right node
+		}
+		
+		/**
+		 * Set current tree children node
+		 * @param leftSide	- left node of the tree
+		 * @param rightSide	- right node of the tree
+		 */
+		public void setChildren(Node leftSide, Node rightSide)
+		{
+			left = leftSide;	//Set left node
+			right = rightSide; //Set right node
+		}
+		
+		/**
+		 * Get left node of the tree
+		 * @return - left node of the tree
+		 */
+		public Node getLeftChildren() {
+			return left;	//Return left node
+		}
+		
+		/**
+		 * Get right node of the tree
+		 * @return - right node of the tree
+		 */
+		public Node getRightChildren()
+		{
+			return right;	//Return right node
+		}
+	}
+}	

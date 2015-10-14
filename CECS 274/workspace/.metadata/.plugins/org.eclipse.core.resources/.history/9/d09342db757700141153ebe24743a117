@@ -1,0 +1,211 @@
+package edu.csulb.BinaryTree;
+
+public class Tree {
+	private Node root = null;
+	private int length = 0;
+	
+	public Tree()
+	{
+		root = new Node();
+		length = 0;
+	}
+	
+	public Tree(int number)
+	{
+		root = new Node(number);
+		length = 0;
+	}
+	
+	public Node add(Node parent, int number)
+	{
+		if(root == null)
+		{
+			root = new Node(number);
+		}
+		else
+		{
+			if(number > parent.data)
+			{
+				parent.right = add(parent.right, number);
+			}
+			else if(number < parent.data)
+			{
+				parent.left = add(parent.left, number);
+			}
+		}
+		return parent;
+	}
+	
+	public void remove(int number)
+	{
+		Node parent = root;
+		Node leftChild = null;
+		Node rightChild = null;
+		Node grandparent = null;
+		boolean found = false;
+		while(!found && parent != null)
+		{
+			if(parent.data == number)
+			{
+				found = true;
+			}
+			else
+			{
+				grandparent = parent;
+				if(parent.data > number)
+				{
+					parent = parent.left;
+				}
+				else
+				{
+					parent = parent.right;
+				}
+			}
+		}
+		
+		if(!found)
+		{
+			System.out.println("Item Not Found");
+		}
+		if(parent.left == null || parent.right == null)
+		{
+			Node child;
+			if(parent.left == null)
+			{
+				child = parent.right; 
+			}
+			else
+			{
+				child = parent.left;
+			}
+			
+			if(grandparent == null)
+			{
+				root = grandparent;
+			}
+			else if(grandparent.left == parent)
+			{
+				grandparent.left = child;
+			}
+			else
+			{
+				grandparent.right = child;
+			}
+		}
+		
+		leftChild = parent;
+		rightChild = parent.right;
+		while(rightChild.left != null)
+		{
+			leftChild = rightChild;
+			rightChild = rightChild.left;
+		}
+		
+		parent.data = rightChild.data;
+		if(leftChild == parent)
+		{
+			leftChild.right = rightChild.right;
+		}
+		else
+		{
+			leftChild.left = rightChild.right;
+		}
+	}
+	
+	public void search(int number)
+	{
+		Node current = root;
+		int count = 0;
+		boolean found = true;
+		while(!found)
+		{
+			if(current == null)
+			{
+				if(!found)
+				{
+					System.out.println("Item is not found.");
+				}
+				found = false;
+			}
+			else
+			{
+				if(current.data == number)
+				{
+					System.out.println("Item is on level " + count);
+					found = false;
+				}
+				else if(current.data > number)
+				{
+					current = current.left;
+					count++;
+				}
+				else if(current.data < number)
+				{
+					current = current.right;
+					count++;
+				}
+			}
+		}
+	}
+	
+	public Node balance(Node parent, int number)
+	{
+		return parent;
+	}
+	
+	public int getSize()
+	{
+		return length;
+	}
+	public void displayTree()
+	{
+		
+	}
+	
+	public void displayStats()
+	{
+		
+	}
+
+	private class Node {
+		private int data;
+		private Node left;
+		private Node right;
+		
+		public Node()
+		{
+			data = 0;	//Null character
+			left = null;	//Null next node
+			right = null;
+		}
+		public Node(int input)
+		{
+			data = input;	//New node character
+			left = null;	//Null left node
+			right = null;	//Null right Node
+		}
+		public int getData()
+		{
+			return data;	//Return a node character
+		}
+		public void setData(int input)
+		{
+			data = input;	//Set new node characterStringString
+			left = null;	//Null left node
+			right = null;	//Null right node
+		}
+		public void setChildren(Node leftSide, Node rightSide)
+		{
+			left = leftSide;	//Set left node
+			right = rightSide; //Set right node
+		}
+		public Node getLeftChildren() {
+			return left;	//Return left node
+		}
+		
+		public Node getRightChildren()
+		{
+			return right;	//Return right node
+		}
+	}
+}	
