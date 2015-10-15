@@ -1,0 +1,7 @@
+11:25:51 **** Clean-only build of configuration Debug for project Homework 3 ****
+make clean 
+rm -rf  ./HW3.o  ./HW3.d  "Homework 3"
+ 
+
+11:25:51 Build Finished (took 69ms)
+

@@ -1,0 +1,78 @@
+/*
+ * Rational.cpp
+ *
+ *  Created on: Mar 3, 2015
+ *      Author: tom
+ */
+#include <iostream>
+#include "Rational.h"
+
+using namespace std;
+
+Rational::Rational() : numerator(0), denominator(1) {
+}
+
+
+Rational::Rational(int num, int denom) : numerator(num), denominator(denom) {
+}
+
+void Rational::setNumerator(int number){
+	numerator = number;
+}
+
+int Rational::getNumerator() const{
+	return numerator;
+}
+
+void Rational::setDenominator(int number){
+	denominator = number;
+}
+
+int Rational::getDenominator() const{
+	return denominator;
+}
+
+void Rational::normalize(int num, int denom){
+
+	if(denominator < 0){
+		numerator = -numerator;
+	}
+
+	int quotient = gcd(&numerator, &denominator);
+
+	numerator /= quotient;
+
+	denominator /= quotient;
+
+}
+
+int Rational::gcd(int *num, int *denom){
+
+	int quotient, largest, smallest, remainder;
+
+	if(*num > *denom){
+		largest = *num;
+		smallest = *denom;
+	}
+	else{
+
+		largest = *denom;
+
+		smallest = *num;
+	}
+
+	while(smallest > 0){
+
+		remainder = largest % smallest;
+
+		quotient = largest / smallest;
+
+		largest = smallest;
+
+		smallest = remainder;
+
+		cout << "Largest: " << largest << " Smallest: " << smallest << endl;
+	}
+
+	return quotient;
+}

@@ -1,0 +1,29 @@
+/*
+ * HW10.cpp
+ *
+ *  Created on: Apr 21, 2015
+ *      Author: tom
+ */
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <fstream>
+
+using namespace std;
+
+int main(int argc, char* argv[]){
+
+	string s = "Hello.My.World:CSULB";
+	char c = s.at(6);
+	string substr = s.substr(2, 6);
+	int length = s.length();
+	int index = s.find_first_of(':');
+	reverse(s.begin(), s.end());
+	replace(s.begin(), s.end(), '.', '+');
+	ifstream file;
+	file.open("numbers.txt");
+
+}
+
+
+

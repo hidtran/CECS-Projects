@@ -1,0 +1,67 @@
+11:26:13 **** Build of configuration Debug for project Virtual Realities ****
+make all 
+Building file: ../ConnectFourBoard.cpp
+Invoking: GCC C++ Compiler
+g++ -std=c++0x -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"ConnectFourBoard.d" -MT"ConnectFourBoard.d" -o "ConnectFourBoard.o" "../ConnectFourBoard.cpp"
+Finished building: ../ConnectFourBoard.cpp
+ 
+Building file: ../ConnectFourMove.cpp
+Invoking: GCC C++ Compiler
+g++ -std=c++0x -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"ConnectFourMove.d" -MT"ConnectFourMove.d" -o "ConnectFourMove.o" "../ConnectFourMove.cpp"
+Finished building: ../ConnectFourMove.cpp
+ 
+Building file: ../ConnectFourView.cpp
+Invoking: GCC C++ Compiler
+g++ -std=c++0x -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"ConnectFourView.d" -MT"ConnectFourView.d" -o "ConnectFourView.o" "../ConnectFourView.cpp"
+Finished building: ../ConnectFourView.cpp
+ 
+Building file: ../OthelloBoard.cpp
+Invoking: GCC C++ Compiler
+g++ -std=c++0x -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"OthelloBoard.d" -MT"OthelloBoard.d" -o "OthelloBoard.o" "../OthelloBoard.cpp"
+Finished building: ../OthelloBoard.cpp
+ 
+Building file: ../OthelloMove.cpp
+Invoking: GCC C++ Compiler
+g++ -std=c++0x -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"OthelloMove.d" -MT"OthelloMove.d" -o "OthelloMove.o" "../OthelloMove.cpp"
+Finished building: ../OthelloMove.cpp
+ 
+Building file: ../OthelloView.cpp
+Invoking: GCC C++ Compiler
+g++ -std=c++0x -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"OthelloView.d" -MT"OthelloView.d" -o "OthelloView.o" "../OthelloView.cpp"
+Finished building: ../OthelloView.cpp
+ 
+Building file: ../TicTacToeBoard.cpp
+Invoking: GCC C++ Compiler
+g++ -std=c++0x -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"TicTacToeBoard.d" -MT"TicTacToeBoard.d" -o "TicTacToeBoard.o" "../TicTacToeBoard.cpp"
+Finished building: ../TicTacToeBoard.cpp
+ 
+Building file: ../TicTacToeMove.cpp
+Invoking: GCC C++ Compiler
+g++ -std=c++0x -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"TicTacToeMove.d" -MT"TicTacToeMove.d" -o "TicTacToeMove.o" "../TicTacToeMove.cpp"
+Finished building: ../TicTacToeMove.cpp
+ 
+Building file: ../TicTacToeView.cpp
+Invoking: GCC C++ Compiler
+g++ -std=c++0x -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"TicTacToeView.d" -MT"TicTacToeView.d" -o "TicTacToeView.o" "../TicTacToeView.cpp"
+Finished building: ../TicTacToeView.cpp
+ 
+Building file: ../main.cpp
+Invoking: GCC C++ Compiler
+g++ -std=c++0x -O0 -g3 -Wall -c -fmessage-length=0 -MMD -MP -MF"main.d" -MT"main.d" -o "main.o" "../main.cpp"
+../main.cpp: In function ‘int main(int, char**)’:
+../main.cpp:150:45: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+    for (int index = 0; index < input.length(); index++) {
+                                             ^
+../main.cpp:297:10: warning: deleting object of abstract class type ‘GameView’ which has non-virtual destructor will cause undefined behaviour [-Wdelete-non-virtual-dtor]
+   delete view;
+          ^
+Finished building: ../main.cpp
+ 
+Building target: Virtual Realities
+Invoking: GCC C++ Linker
+g++  -o "Virtual Realities"  ./ConnectFourBoard.o ./ConnectFourMove.o ./ConnectFourView.o ./OthelloBoard.o ./OthelloMove.o ./OthelloView.o ./TicTacToeBoard.o ./TicTacToeMove.o ./TicTacToeView.o ./main.o   
+Finished building target: Virtual Realities
+ 
+11:26:47 **** Incremental Build of configuration Debug for project Virtual Realities ****
+make all 
+make: Nothing to be done for `all'.

@@ -1,0 +1,7 @@
+11:25:50 **** Clean-only build of configuration Debug for project Array, a Drop of Golden Sun ****
+make clean 
+rm -rf  ./Rational.o ./RationalArray.o ./RationalTester.o ./main.o  ./Rational.d ./RationalArray.d ./RationalTester.d ./main.d  "Array, a Drop of Golden Sun"
+ 
+
+11:25:50 Build Finished (took 76ms)
+

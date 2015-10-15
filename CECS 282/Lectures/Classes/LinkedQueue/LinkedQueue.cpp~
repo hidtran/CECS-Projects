@@ -1,0 +1,101 @@
+#include "LinkedQueue.h"
+#include <iostream>
+#include <standardexceptiontype>
+
+// Default construct a LinkedQueue with no elements.
+LinkedQueue::LinkedQueue()
+ : mHead(nullptr), mTail(nullptr), mSize(0) { // "nullptr" instead of "null"
+
+   // Before continuing, draw a picture of a LinkedQueue variable on the stack.
+	// See lecture notes
+
+}
+
+
+LinkedQueue::LinkedQueue(const LinkedQueue &other)
+   : mSize(other.mSize) {
+   // This initializer list is the "shallow copy" behavior of the 
+   // copy constructor. Is it correct? We'll answer this later.
+	
+	mHead = nullptr;
+	Node *o = other.mHead;
+	Node *mine = nullptr;
+
+	for (int index = 0; index < mSize; index++){
+		Node *newNode = new Node(o->mData, nullptr);
+
+		if (index == 0){
+			mine = mHead = newNode;
+		}
+
+		else {
+			mine->mNext = newNode;
+			mine = newNode;
+		}
+
+		o = o->mNext;
+	}
+		mTail = mine;
+}
+
+void LinkedQueue::Add(int data) {
+   // Add the new data to the tail of the queue. 
+   // Create a Node to hold the data, then link the current "tail" of the queue
+   // to the new Node.
+   
+
+   // First case: the queue is empty, so there is no tail.
+   if (mSize == 0) {
+      // DRAW THIS OUT.
+      Node *newNode = new Node(data, nullptr); //Putting new node onto the heap. *Right hand side always evaluated first*
+      mHead = mTail = newNode;	//Setting head and tail to the new node
+
+
+
+   }
+   else {
+      Node *newNode = new Node(data, nullptr);
+      mTail->mNext = newNode; // *-> - follow the pointer arrow points to*
+      mTail = newNode;
+   }
+   mSize++;
+}
+
+int LinkedQueue::Remove() {
+   if (mSize == 0) {
+      // what do we do?
+		throw std::out of range("Queue was empty");
+		//Can't return null from primitive types
+		//mtail = mHead;
+   
+   }
+
+   // mHead points to the next item we want to remove. 
+   // Make a copy of the data at the head, then redirect the head.
+   
+   int data = mHead->mData;
+	Node *temp = mHead;
+   mHead = mHead->mNext;
+	delete temp;
+   // What happens to the old head Node? There is a bug in this code...
+
+	if(mSize == 1)
+		mTail = nullptr;
+
+   mSize--;
+   return data;
+}
+
+LinkedQueue::~LinkedQueue() {
+
+	Node *newNode = mHead;
+	while (newNode != nullptr){
+		Node *temp = newNode;
+		newNode = newNode -> mNext;
+		delete temp;
+	}
+	mHead = nullptr;
+	mTail = nullptr;
+
+}
+

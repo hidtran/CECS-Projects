@@ -1,0 +1,92 @@
+/*
+ * Cannon Ball.cpp
+
+ *
+ *  Created on: Jan 29, 2015
+ *      Author: Hieu Tran
+ *
+ */
+#include <iostream>
+#include <iomanip>
+#include <random>
+#include <cmath>
+
+using namespace std;
+int main(int argc, char* argv[]){
+
+	const double GRAVITY = 9.8;
+
+	const double PI = 3.141592653589793238463;
+
+	const double GUNPOWDER_VELOCITY = 30;
+
+	const double RADIAN = PI / 180;
+
+	const int METER = 1000;
+
+	const int RIGHT_ANGLE = 90;
+
+	int seedInput;
+
+	cout << "Please enter a positive integer seed value: " << endl;
+
+	cin >> seedInput;
+
+	while (seedInput <= 0){
+
+		cout << "Please enter a positive integer seed value: " << endl;
+
+		cin >> seedInput;
+	}
+	default_random_engine engine(seedInput);
+
+	uniform_real_distribution<double> distanceDistr(1, METER);
+
+	double targetDistance = distanceDistr(engine);
+
+	cout << "The target distance away: " << fixed << setprecision(2) << targetDistance << endl;
+
+	bool exit = false;
+
+	while(!exit){
+
+		cout << "Choose an angle between 0 and 90 degrees: " << endl;
+
+		double angle, gunpowder;
+
+		cin >> angle;
+
+		while (angle < 0 || angle > RIGHT_ANGLE){
+
+			cout << "Choose an angle between 0 and 90 degrees: " << endl;
+
+			cin >> angle;
+		}
+
+		cout << "Enter an amount of gunpowder in kilograms: " << endl;
+
+		cin >> gunpowder;
+
+		double initialVelocity = gunpowder * GUNPOWDER_VELOCITY;
+
+		double xVelocity = initialVelocity * cos(angle * RADIAN);
+
+		double yVelocity = initialVelocity * sin(angle * RADIAN);
+
+		double time = yVelocity / GRAVITY;
+
+		double distance = xVelocity * time;
+
+		double target = targetDistance - distance;
+
+		if(target >= 1 && target < 2){
+			cout << "Target hits! " << endl;
+			exit = true;
+		}
+
+		cout << "Target is " << target << " short." << endl;
+	}
+}
+
+
+

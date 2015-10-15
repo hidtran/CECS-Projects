@@ -1,0 +1,148 @@
+/*
+ * ConnectFourBoard.cpp
+ *
+ *  Created on: May 12, 2015
+ *      Author: tom
+ */
+#include <iostream>
+#include <vector>
+#include "ConnectFourBoard.h"
+#include "ConnectFourMove.h"
+#include "GameMove.h"
+
+using namespace std;
+
+int const WINNER = 4;
+
+ConnectFourBoard::ConnectFourBoard() :
+		mBoard() {
+}
+
+void ConnectFourBoard::GetPossibleMoves(vector<GameMove *> *list) const {
+
+	for (int row = R_SIZE - 1; row > EMPTY; row--) {
+
+		for (int column = EMPTY; column < C_SIZE; column++) {
+
+			if (mBoard[row][column] == EMPTY) {
+
+				cout << "Board: " << mBoard[row - 1][column] << endl;
+
+				if (mBoard[row - 1][column] == EMPTY && InBounds(row - 1, column)) {
+
+					continue;
+
+				}
+			}
+		}
+
+	}
+
+	if (list->empty()) {
+
+		const_cast<int &>(mValue) += mNextPlayer;
+
+	}
+
+}
+
+void ConnectFourBoard::ApplyMove(GameMove *move) {
+
+	ConnectFourMove *mov = dynamic_cast<ConnectFourMove *>(move);
+
+	if (mov == nullptr) {
+
+		throw GameException("Invalid Connect Four Move");
+
+	}
+
+	mHistory.push_back(mov);
+
+	mBoard[mov->mRow][mov->mCol] = mNextPlayer;
+
+	mValue += mNextPlayer;
+
+	mNextPlayer = -mNextPlayer;
+
+}
+
+void ConnectFourBoard::UndoLastMove() {
+
+	ConnectFourMove *move = dynamic_cast<ConnectFourMove *>(mHistory.back());
+
+	if (move == nullptr) {
+
+		throw GameException("Invalid Connect Four Move");
+
+	}
+
+	mBoard[move->mRow][move->mCol] = EMPTY;
+
+	mValue += mNextPlayer;
+
+	mNextPlayer = -mNextPlayer;
+
+}
+
+bool ConnectFourBoard::IsFinished() const {
+
+	for (int row = EMPTY; row < R_SIZE; row++) {
+
+		for (int column = EMPTY; column < C_SIZE; column++) {
+
+			if (mBoard[row][column] == mNextPlayer) {
+
+				bool found = false;
+
+				for (int i = RED; i <= YELLOW; i++) {
+
+					for (int j = RED; j <= YELLOW; j++) {
+
+						int ally = 0;
+
+						int movRow = row;
+
+						int movColumn = column;
+
+						while (InBounds(movRow, movColumn)) {
+
+							movRow += i;
+
+							movColumn += j;
+
+							if (InBounds(movRow, movColumn)) {
+
+								if (mBoard[movRow][movColumn] == mNextPlayer) {
+
+									ally++;
+
+									if (ally == WINNER && !found) {
+
+										const_cast<int &>(mValue) += mNextPlayer;
+
+										return true;
+
+									}
+
+								}
+
+								else {
+
+									break;
+								}
+							}
+
+						}
+
+					}
+
+				}
+
+			}
+
+		}
+	}
+
+	return false;
+}
+

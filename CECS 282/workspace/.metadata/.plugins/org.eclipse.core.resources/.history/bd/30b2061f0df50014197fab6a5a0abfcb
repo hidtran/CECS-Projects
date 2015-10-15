@@ -1,0 +1,22 @@
+/*
+ * main.cpp
+ *
+ *  Created on: May 7, 2015
+ *      Author: tom
+ */
+#include <iostream>
+#include <vector>
+#include "GameMove.h"
+#include "GameExceptions.h"
+#include "OthelloBoard.h"
+#include "OthelloMove.h"
+#include "OthelloView.h"
+
+using namespace std;
+
+int main(int argc, char* argv[]) {
+
+}
+
+
+

@@ -1,0 +1,126 @@
+/*
+ * TicTacToeBoard.cpp
+ *
+ *  Created on: May 6, 2015
+ *      Author: tom
+ */
+#include <iostream>
+#include <vector>
+#include "TicTacToeBoard.h"
+#include "TicTacToeMove.h"
+#include "GameMove.h"
+
+using namespace std;
+
+TicTacToeBoard::TicTacToeBoard() : mBoard() {
+}
+
+void TicTacToeBoard::GetPossibleMoves(vector<GameMove *> *list) const {
+
+	for (int row = EMPTY; row < BOARD_SIZE; row++) {
+
+		for (int column = EMPTY; column < BOARD_SIZE; column++) {
+
+			if (InBounds(row, column)) {
+
+				if (mBoard[row][column] == EMPTY) {
+
+					list->push_back(new TicTacToeMove(row, column));
+
+				}
+			}
+		}
+	}
+}
+
+void TicTacToeBoard::ApplyMove(GameMove *move) {
+
+	TicTacToeMove *mov = dynamic_cast<TicTacToeMove *>(move);
+
+	if (mov == nullptr) {
+
+		throw GameException("Invalid Tic Tac Toe Move");
+
+	}
+
+	mHistory.push_back(mov);
+
+	mBoard[mov->mRow][mov->mCol] = mNextPlayer;
+
+	mValue += mNextPlayer;
+
+	mNextPlayer = -mNextPlayer;
+
+}
+
+void TicTacToeBoard::UndoLastMove() {
+
+	TicTacToeMove *move = dynamic_cast<TicTacToeMove *>(mHistory.back());
+
+	if (move == nullptr) {
+
+		throw GameException("Invalid Tic Tac Toe Move");
+
+	}
+
+	mBoard[move->mRow][move->mCol] = EMPTY;
+
+	mValue -= mNextPlayer;
+
+	mHistory.back();
+
+	delete move;
+
+}
+
+bool TicTacToeBoard::IsFinished() const {
+
+	char winner;
+
+	for(int index = 0; index < BOARD_SIZE; index++){
+		int column = 0;
+		if((mBoard[index][column] != 0 && InBounds(index, column))){
+			if((mBoard[index][column] == mBoard[index][column + 1]) &&
+				(mBoard[index][column + 1] == mBoard[index][column + 2])){
+				winner = mBoard[index][column];
+				cout << "Horizontal Winner: " << winner << endl;
+			}
+		}
+	}
+
+	for(int index = 0; index < BOARD_SIZE; index++){
+		int row = 0;
+		if((mBoard[row][index] != 0) && InBounds(row, index)){
+			if((mBoard[row][index] == mBoard[row + 1][index]) &&
+				(mBoard[row + 1][index] == mBoard[row + 2][index])){
+					row = index;
+					winner = mBoard[row][index];
+			}
+		}
+	}
+
+	if(mBoard[0][0] != 0 || mBoard[0][2] != 0){
+		if((mBoard[0][0] == mBoard[1][1]) && (mBoard[1][1] == mBoard[2][2])){
+			winner = mBoard[0][0];
+		}
+		else if((mBoard[0][2] == mBoard[1][1]) && (mBoard[1][1] == mBoard[2][0])){
+			winner = mBoard[0][2];
+		}
+	}
+
+
+	switch(winner){
+		case 1:
+			cout << "Player 1 wins!" << endl;
+			return true;
+			break;
+		case -1:
+			cout << "Player 2 wins!" << endl;
+			return true;
+			break;
+		default:
+			return false;
+			break;
+	}
+
+}

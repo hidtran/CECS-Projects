@@ -1,0 +1,35 @@
+/*
+ * ConnectFourBoard.cpp
+ *
+ *  Created on: May 12, 2015
+ *      Author: tom
+ */
+#include <iostream>
+#include <vector>
+#include "ConnectFourBoard.h"
+#include "ConnectFourMove.h"
+#include "GameMove.h"
+
+using namespace std;
+
+ConnectFourBoard::ConnectFourBoard() : mBoard() {
+}
+
+void ConnectFourBoard::GetPossibleMoves(vector<GameMove *> *list) const {
+
+	for (int row = 0; row < R_SIZE; row++) {
+
+		for (int column = 0; column < C_SIZE; column++) {
+
+			if (mBoard[row][column] == EMPTY) {
+
+				list -> push_back(new ConnectFourMove(row, column));
+
+			}
+
+		}
+
+	}
+
+}
+

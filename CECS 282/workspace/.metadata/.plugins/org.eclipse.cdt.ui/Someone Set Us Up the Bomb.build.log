@@ -1,0 +1,7 @@
+11:25:52 **** Clean-only build of configuration Debug for project Someone Set Us Up the Bomb ****
+make clean 
+rm -rf  ./Cannon\ Ball.o  ./Cannon\ Ball.d  "Someone Set Us Up the Bomb"
+ 
+
+11:25:52 Build Finished (took 70ms)
+

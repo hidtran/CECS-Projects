@@ -1,0 +1,59 @@
+/*
+ * OthelloView.cpp
+ *
+ *  Created on: May 5, 2015
+ *      Author: tom
+ */
+#include <iostream>
+#include <sstream>
+#include "OthelloView.h"
+
+using namespace std;
+
+/*
+ * Printing Othello's board game
+ */
+void OthelloView::PrintBoard(ostream &print) const{
+
+	print << endl << "- 0 1 2 3 4 5 6 7" << endl;
+
+	for (int row = 0; row < BOARD_SIZE; row++){
+
+		for (int column = 0; column < BOARD_SIZE; column++){
+
+			if (column == 0){
+				//Printing vertical row
+				print << row << " ";
+
+			}
+
+			if (mOthelloBoard -> mBoard[row][column] == 0 ||
+				column == BOARD_SIZE) {
+
+				//Empty square
+				print << ". ";
+
+			}
+
+			else if (mOthelloBoard -> mBoard[row][column] ==
+				mOthelloBoard -> BLACK) {
+				//Contain Black's move
+				print << "B ";
+
+			}
+
+			else if (mOthelloBoard -> mBoard[row][column] ==
+				mOthelloBoard -> WHITE) {
+				//Contain White's move
+				print << "W ";
+
+			}
+		}
+		//New line
+		print << endl;
+
+	}
+	//New line
+	print << endl;
+
+}

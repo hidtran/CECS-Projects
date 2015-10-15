@@ -1,0 +1,49 @@
+/*
+ * TicTacToeView.cpp
+ *
+ *  Created on: May 7, 2015
+ *      Author: tom
+ */
+#include <iostream>
+#include <sstream>
+#include "TicTacToeView.h"
+
+using namespace std;
+
+
+
+void TicTacToeView::PrintBoard(ostream &print) const {
+
+	for (int row = 0; row < BOARD_SIZE; row++) {
+
+		for (int column = 0; column < BOARD_SIZE; column++) {
+
+			if (mTicTacToeBoard -> mBoard[row][column] == mTicTacToeBoard -> EMPTY) {
+
+				print << ". | ";
+
+			}
+
+			else if (mTicTacToeBoard -> mBoard[row][column] == mTicTacToeBoard -> X) {
+
+				print << "X | ";
+
+			}
+
+			else if (mTicTacToeBoard -> mBoard[row][column] == mTicTacToeBoard -> O) {
+
+				print << "O | ";
+
+			}
+
+		}
+
+		print << endl;
+
+	}
+
+	print << endl;
+
+}
+
+

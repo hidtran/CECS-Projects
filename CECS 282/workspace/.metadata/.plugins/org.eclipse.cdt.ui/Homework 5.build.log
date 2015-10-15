@@ -1,0 +1,7 @@
+11:25:51 **** Clean-only build of configuration Debug for project Homework 5 ****
+make clean 
+rm -rf  ./Date.o ./GradeBook.o  ./Date.d ./GradeBook.d  "Homework 5"
+ 
+
+11:25:51 Build Finished (took 79ms)
+

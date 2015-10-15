@@ -1,0 +1,289 @@
+/*
+ * main.cpp
+ *
+ *  Created on: May 7, 2015
+ *      Author: tom
+ */
+#include <iostream>
+#include <vector>
+#include <string>
+#include "GameBoard.h"
+#include "GameMove.h"
+#include "GameExceptions.h"
+#include "OthelloBoard.h"
+#include "OthelloMove.h"
+#include "OthelloView.h"
+#include "TicTacToeBoard.h"
+#include "TicTacToeMove.h"
+#include "TicTacToeView.h"
+
+using namespace std;
+
+void Othello();
+
+GameBoard *board;
+
+GameView *view;
+
+int main(int argc, char* argv[]) {
+
+	cout << "Choose the following games to play: " << endl;
+
+	cout << "O: Othello Game" << endl;
+
+	cout << "T: TicTacToe Game" << endl;
+
+	cout << "C: Connect Four Game" << endl;
+
+	cout << "Q: Exit" << endl;
+
+	char input;
+
+	cin.get(input);
+
+	toupper(input);
+
+	cin.get();
+
+	cout << input << endl;
+
+	switch (input) {
+
+	case 'O':
+
+		board = new OthelloBoard();
+
+		view = new OthelloView(board);
+
+		Othello();
+
+		break;
+
+	case 'T':
+
+		board = new TicTacToeBoard();
+
+		view = new TicTacToeView(board);
+
+		break;
+
+	case 'C':
+
+		break;
+
+	case 'Q':
+
+		break;
+
+	default:
+
+		break;
+
+	}
+
+}
+
+void Othello() {
+
+	//Welcome message
+	cout << "Welcome to Othello!" << endl;
+	//OthellooBoard class object
+	OthelloBoard *oBoard = dynamic_cast<OthelloBoard *>(board);
+	//OthelloView class object
+	OthelloView *oView = dynamic_cast<OthelloView *> (view);
+	//Vector move pointer
+	vector<GameMove *> move;
+	//User input
+	string input;
+
+	while (!(oBoard->IsFinished())) {
+		//Display current oBoard
+		cout << *view << endl;
+		//Get all possible moves
+		oBoard->GetPossibleMoves(&move);
+		//Possible moves variable
+		string possibleMoves;
+
+		for (GameMove *mov : move) {
+
+			OthelloMove *oMove = dynamic_cast<OthelloMove *> (mov);
+			//Retrieving all possible moves
+			possibleMoves += *oMove;
+			cout << "Possible moves:\n" << possibleMoves << endl;
+			//Removing all possible moves from the heap
+			delete mov;
+
+		}
+		//Clear all move vector pointers
+		move.clear();
+
+		if (oBoard->GetNextPlayer() == oBoard->BLACK) {
+			//Black's move
+			cout << "\nBlack's turn" << endl;
+
+		}
+
+		else {
+			//White's move
+			cout << "\nWhite's turn" << endl;
+
+		}
+		//Display all possible moves
+		cout << "Possible moves:\n" << possibleMoves << endl;
+
+		cout << "Enter a command: ";
+		//Get user input
+		getline(cin, input);
+
+		cout << endl;
+		//Command input
+		string choice;
+		//new move position
+		int position = oBoard->EMPTY;
+
+		for (int index = oBoard->EMPTY; index < input.length(); index++) {
+
+			if (input[index] == ' ') {
+				//Retrieving new move position
+				position = index + 1;
+
+				break;
+
+			}
+			//Retrieving command input
+			choice += input[index];
+
+		}
+
+/*
+		if (choice == "move") {
+			//Creating new move
+			OthelloMove *newMove = dynamic_cast<OthelloMove *> (oBoard.CreateMove());
+
+			try {
+				//Retrieving new move
+				(*newMove) = input.substr(position);
+
+			}
+
+			catch (GameException &error) {
+				//Invalid new move
+				cout << error.what() << endl;
+
+				delete newMove;
+
+			}
+			//Get all new possible moves
+			oBoard.GetPossibleMoves(&move);
+
+			bool equal = false;
+
+			for (vector<GameMove *>::iterator itr = move.begin();
+					itr != move.end(); ++itr) {
+				//Store all possible new moves
+				OthelloMove *temp = dynamic_cast<OthelloMove *> (*itr);
+
+				if (*newMove == *temp && !equal) {
+					//Apply new move onto the oBoard
+					oBoard.ApplyMove(newMove);
+					//Valid new move
+					equal = true;
+
+				}
+				//Removing all possible moves on the heap
+				delete temp;
+			}
+
+			if (!equal) {
+
+				cout << "\nInvalid input" << endl;
+
+				//Removing invalid new move
+				delete newMove;
+
+			}
+			//Clear all move vector pointers
+			move.clear();
+
+		}
+
+		else if (choice == "undo") {
+			//Number of undoes
+			int number = stoi(input.substr(position));
+
+			if (number > oBoard.GetMoveCount()) {
+				//Max number of undoes
+				number = oBoard.GetMoveCount();
+
+			}
+
+			while (number > oBoard.EMPTY) {
+				//Undo latest move
+				oBoard.UndoLastMove();
+				//Next undo move
+				number--;
+
+			}
+		}
+
+		else if (choice == "showValue") {
+			//Display current oBoard value
+			cout << "oBoard Value: " << oBoard.GetValue() << endl;
+
+		}
+
+		else if (choice == "showHistory") {
+			//History of all moves apply
+			const vector<GameMove *> *mov = oBoard.GetMoveHistory();
+			//Number moves applied to the oBoard
+			int index = oBoard.GetMoveCount();
+
+			for (vector<GameMove *>::const_reverse_iterator temp =
+					mov->crbegin(); temp != mov->crend(); ++temp) {
+				//Getting latest move's history
+				GameMove *m = *temp;
+
+				if (index % (oBoard.BLACK + oBoard.BLACK) == 0) {
+					//White history movement
+					cout << "White: " << (string) *m << endl;
+				}
+
+				else {
+					//Black history movement
+					cout << "Black: " << (string) *m << endl;
+
+				}
+				//Next player's history movement
+				index--;
+			}
+
+		}
+
+		else if (choice == "quit") {
+			//Exit the game
+			cout << "Thank you for playing" << endl;
+
+			break;
+
+		}
+
+		if (oBoard.GetValue() > oBoard.EMPTY) {
+			//Black won the game
+			cout << "\nBlack wins!" << endl;
+
+		}
+
+		else if (oBoard.GetValue() < oBoard.EMPTY) {
+			//White won the game
+			cout << "\nWhite wins!" << endl;
+		}
+
+		else {
+			//Tie game
+			cout << "\nIt's a tie!" << endl;
+
+		}
+		*/
+	}
+
+}

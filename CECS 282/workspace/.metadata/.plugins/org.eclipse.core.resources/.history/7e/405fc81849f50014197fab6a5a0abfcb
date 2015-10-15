@@ -1,0 +1,92 @@
+/*
+ * main.cpp
+ *
+ *  Created on: May 7, 2015
+ *      Author: tom
+ */
+#include <iostream>
+#include <vector>
+#include <string>
+#include "GameBoard.h"
+#include "GameMove.h"
+#include "GameExceptions.h"
+#include "OthelloBoard.h"
+#include "OthelloMove.h"
+#include "OthelloView.h"
+
+using namespace std;
+
+void Othello();
+
+GameBoard *board;
+
+GameView *view;
+
+int main(int argc, char* argv[]) {
+
+	cout << "Choose the following games to play: " << endl;
+
+	cout << "O: Othello Game" << endl;
+
+	cout << "T: TicTacToe Game" << endl;
+
+	cout << "C: Connect Four Game" << endl;
+
+	cout << "Q: Exit" << endl;
+
+	char input;
+
+	cin.get(input);
+
+	toupper(input);
+
+	cin.get();
+
+	cout << input;
+
+	switch(input) {
+
+		case 'O':
+
+			Othello();
+
+			break;
+
+		case 'T':
+
+			break;
+
+		case 'C':
+
+			break;
+
+		case 'Q':
+
+			break;
+
+		default:
+
+			break;
+
+	}
+
+}
+
+void Othello() {
+
+	board = new OthelloBoard();
+
+	view = new OthelloView(board);
+
+	cout << "Welcome to Othello!" << endl;
+
+	vector <OthelloMove *> move;
+
+	string input;
+
+
+
+}
+
+
+

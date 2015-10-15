@@ -1,0 +1,122 @@
+/*
+ * Othello.cpp
+ *
+ *  Created on: Feb 17, 2015
+ *      Author: tom
+ */
+#include <iostream>
+#include "Othello.h"
+
+using namespace std;
+int main(int argc, char* argv[]){
+	char boardArray[BOARD_SIZE][BOARD_SIZE] =
+			{0, 0, 0, 0, 0, 0, 0, 0,
+			 0, 0, 0, 0, 0, 0, 0, 0,
+			 0, 0, 0, 0, 0, 0, 0, 0,
+			 0, 0, 0, 0, -1, 1, 0, 0,
+			 0, 0, 0, 0, 1, -1, 0, 0,
+			 0, 0, 0, 0, 0, 0, 0, 0,
+			 0, 0, 0, 0, 0, 0, 0, 0,
+			 0, 0, 0, 0, 0, 0, 0, 0,};
+
+	PrintBoard(boardArray);
+
+	cout << "Black's turn: ";
+
+	int row, column;
+
+	GetMove(&row, &column);
+
+	boardArray[row][column + 1] = 1;
+
+	PrintBoard(boardArray);
+
+	cout << "White's turn: ";
+
+	GetMove(&row, &column);
+
+	boardArray[row][column + 1] = -1;
+
+	PrintBoard(boardArray);
+}
+
+void PrintBoard(char board[BOARD_SIZE][BOARD_SIZE]){
+
+	int count = 0;
+
+	cout << "- 0 1 2 3 4 5 6 7" << endl;
+
+	for (int row = 0; row < BOARD_SIZE; row++){
+
+		for (int column = 0; column <= BOARD_SIZE; column++){
+
+			if (column == 0){
+
+				cout << count << " ";
+
+				count++;
+
+			}
+
+			else{
+
+				if (board[row][column] == 0 || column == BOARD_SIZE){
+
+					cout << ". ";
+
+				}
+
+				else if (board[row][column] == 1){
+
+					cout << "B ";
+
+				}
+
+				else if (board[row][column] == -1){
+
+					cout << "W ";
+
+				}
+			}
+		}
+
+		cout << endl;
+
+	}
+}
+
+bool InBounds(int row, int col){
+
+	return (row < BOARD_SIZE || col < BOARD_SIZE) ? true:false;
+
+}
+
+bool IsValidMove(char board[BOARD_SIZE][BOARD_SIZE], int row, int col){
+
+	if (InBounds && (board[row][col] == 1 || board[row][col] == -1)){
+
+		return true;
+	}
+
+	return false;
+
+}
+
+void GetMove(int *row, int *col){
+
+	char comma, lparen, rparen;
+
+	cin >> lparen >> *row >> comma >> *col >> rparen;
+
+}
+
+void ApplyMove(char board[BOARD_SIZE][BOARD_SIZE], int row, int col,
+		char player){
+
+}
+
+int GetValue(char board[BOARD_SIZE][BOARD_SIZE]){
+	return 0;
+}
+
+

@@ -1,0 +1,7 @@
+11:25:51 **** Clean-only build of configuration Debug for project Homework 9 ****
+make clean 
+rm -rf  ./HW9.o ./Rational.o  ./HW9.d ./Rational.d  "Homework 9"
+ 
+
+11:25:52 Build Finished (took 67ms)
+

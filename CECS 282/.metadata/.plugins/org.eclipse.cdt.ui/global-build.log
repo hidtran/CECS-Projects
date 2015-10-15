@@ -1,0 +1,26 @@
+
+**** Build of configuration Debug for project Lab 1 ****
+
+make all 
+Building file: ../MontyHall.cpp
+Invoking: GCC C++ Compiler
+g++ -O0 -g3 -Wall -c -fmessage-length=0 -std=c++0x -MMD -MP -MF"MontyHall.d" -MT"MontyHall.d" -o "MontyHall.o" "../MontyHall.cpp"
+../MontyHall.cpp: In function ‘int main(int, char**)’:
+../MontyHall.cpp:17:4: error: ‘default_random_device’ was not declared in this scope
+    default_random_device engine(rand());
+    ^
+../MontyHall.cpp:17:26: error: expected ‘;’ before ‘engine’
+    default_random_device engine(rand());
+                          ^
+../MontyHall.cpp:23:25: error: ‘engine’ was not declared in this scope
+    int door = doordistr(engine);
+                         ^
+../MontyHall.cpp:23:8: warning: unused variable ‘door’ [-Wunused-variable]
+    int door = doordistr(engine);
+        ^
+../MontyHall.cpp:24:8: warning: unused variable ‘prize’ [-Wunused-variable]
+    int prize = prizedistr(engine);
+        ^
+make: *** [MontyHall.o] Error 1
+
+**** Build Finished ****

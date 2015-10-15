@@ -1,0 +1,7 @@
+11:25:51 **** Clean-only build of configuration Debug for project Homework 11 ****
+make clean 
+rm -rf  ./HW11.o  ./HW11.d  "Homework 11"
+ 
+
+11:25:51 Build Finished (took 67ms)
+

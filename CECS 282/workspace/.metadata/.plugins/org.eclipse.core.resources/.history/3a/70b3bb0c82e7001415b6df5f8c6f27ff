@@ -1,0 +1,146 @@
+/*
+ * main.cpp
+ *
+ *  Created on: Apr 7, 2015
+ *      Author: tom
+ */
+#include <iostream>
+#include <vector>
+#include <string>
+#include <stdexcept>
+#include "OthelloBoard.h"
+#include "OthelloView.h"
+
+using namespace std;
+
+int main(int argc, char* argv[]){
+
+	cout << "Welcome to Othello!" << endl;
+
+	OthelloBoard board;
+
+	OthelloView view(&board);
+
+	string input;
+
+	vector<OthelloMove *> move;
+
+	cout << view << endl;
+
+	board.GetPossibleMoves(&move);
+
+	for(vector<OthelloMove *>::iterator itr = move.begin(); itr != move.end(); ++itr){
+
+		OthelloMove *temp = *itr;
+
+		cout << temp << endl;
+
+		delete temp;
+	}
+
+	cout << "Choose one of the following choices: " << endl;
+
+	cout << "\t i. move(r, c)" << endl;
+
+	cout << "\t ii. undo n" << endl;
+
+	cout << "\t iii. showValue" << endl;
+
+	cout << "\t iv. showHistory" << endl;
+
+	cout << "\t v. quit" << endl;
+
+	getline(cin, input);
+
+	cout << endl;
+
+	string choice;
+
+	for (int index = 0; index < input.length(); index++){
+
+		if (input == " "){
+
+			break;
+
+		}
+
+		choice += input[index];
+
+	}
+
+
+	if (choice == "move") {
+
+		try {
+
+			OthelloMove *newMove = board.CreateMove();
+
+			newMove->operator = (input);
+
+			board.GetPossibleMoves(&move);
+
+			for(vector<OthelloMove *>::iterator itr = move.begin(); itr != move.end(); ++itr){
+
+				OthelloMove *temp = *itr;
+
+				cout << temp << endl;
+
+				if (newMove == temp){
+
+					board.ApplyMove(newMove);
+					delete temp;
+
+				}
+
+				else {
+
+					cout << "Move is invalid" << endl;
+
+				}
+
+			}
+
+		}
+
+		catch(out_of_range &error) {
+
+			cout << error.what() << endl;
+
+		}
+
+
+	}
+
+	else if (choice == "undo") {
+
+		if (board.GetMoveCount() < 0){
+
+			board.UndoLastMove();
+
+		}
+
+	}
+
+	else if (choice == "showValue") {
+
+		cout << board.GetValue() << endl;
+
+	}
+
+	else if (choice == "showHistory") {
+
+		cout << board.GetMoveHistory() << endl;
+
+	}
+
+	else {
+
+		cout << "Thank you for playing" << endl;
+
+		//break;
+
+	}
+
+}
+
+

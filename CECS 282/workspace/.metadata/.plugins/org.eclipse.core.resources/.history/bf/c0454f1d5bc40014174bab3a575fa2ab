@@ -1,0 +1,22 @@
+/*
+ * main.cpp
+ *
+ *  Created on: Mar 6, 2015
+ *      Author: tom
+ */
+#include <iostream>
+#include "Rational.h"
+
+using namespace std;
+
+int main(int argc, char* argv[]){
+
+	Rational r1(5, -20);
+	Rational r2(-10, -2);
+
+	cout << "R1 Numerator: " << r1.getNumerator() << " R1 Denominator: " << r1.getDenominator() << endl;
+	cout << "R1 Numerator: " << r2.getNumerator() << " R1 Denominator: " << r2.getDenominator() << endl;
+}
+
+
+

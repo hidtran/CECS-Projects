@@ -1,0 +1,301 @@
+/*
+ * main.cpp
+ *
+ *  Created on: May 7, 2015
+ *      Author: tom
+ */
+#include <iostream>
+#include <vector>
+#include <string>
+#include "GameBoard.h"
+#include "GameMove.h"
+#include "GameExceptions.h"
+#include "OthelloBoard.h"
+#include "OthelloMove.h"
+#include "OthelloView.h"
+#include "TicTacToeBoard.h"
+#include "TicTacToeMove.h"
+#include "TicTacToeView.h"
+#include "ConnectFourBoard.h"
+#include "ConnectFourMove.h"
+#include "ConnectFourView.h"
+
+using namespace std;
+
+int main(int argc, char* argv[]) {
+
+	bool exit = false;
+
+	while (!exit) {
+
+		GameBoard *board;
+
+		GameView *view;
+
+		cout << "\nChoose the following games to play: " << endl;
+
+		cout << "O: Othello Game" << endl;
+
+		cout << "T: TicTacToe Game" << endl;
+
+		cout << "C: Connect Four Game" << endl;
+
+		cout << "Q: Exit" << endl;
+
+		char choice;
+
+		cin.get(choice);
+
+		if (choice == 'Q') {
+
+			cout << "Thank you for playing" << endl;
+
+			exit = true;
+
+			break;
+
+		}
+
+		switch (choice) {
+
+		case 'O':
+
+			board = new OthelloBoard();
+
+			view = new OthelloView(board);
+
+			break;
+
+		case 'T':
+
+			board = new TicTacToeBoard();
+
+			view = new TicTacToeView(board);
+
+			break;
+
+		case 'C':
+
+			board = new ConnectFourBoard();
+			view = new ConnectFourView(board);
+
+			break;
+
+		case 'Q':
+
+			break;
+
+		default:
+
+			break;
+
+		}
+
+		vector<GameMove *> move;
+		//User input
+		string input;
+
+		//Display empty board
+		cout << endl << *view << endl;
+
+		while (!(board -> IsFinished())) {
+
+			//Get all possible moves
+			board->GetPossibleMoves(&move);
+
+			if (move.empty()) {
+
+				break;
+
+			}
+
+			//Possible moves variable
+			string possibleMoves;
+
+			for (GameMove *mov : move) {
+				//Retrieving all possible moves
+				possibleMoves += *mov;
+				//Removing all possible moves from the heap
+				delete mov;
+
+			}
+			//Clear all move vector pointers
+			move.clear();
+
+			if (board->GetNextPlayer() == 1) {
+				//Black's move
+				cout << endl << board->GetPlayerString(1) << "'s turn" << endl;
+
+			}
+
+			else {
+				//White's move
+				cout << endl << board->GetPlayerString(-1) << "'s turn" << endl;
+
+			}
+
+			cout << "Possible Moves:\n" << possibleMoves << endl;
+
+			cout << "Enter a command: ";
+			//Get user input
+			getline(cin, input);
+
+			cout << endl;
+
+			//Command input
+			string order;
+
+			int position = 0;
+
+			for (int index = 0; index < input.length(); index++) {
+
+				if (input[index] == ' ') {
+					//Retrieving new move position
+					position = index + 1;
+
+					break;
+
+				}
+				//Retrieving command input
+				order += input[index];
+
+			}
+
+			if (order == "move") {
+				//Creating new move
+				GameMove *newMove = board->CreateMove();
+
+				try {
+					//Retrieving new move
+					(*newMove) = input.substr(position);
+
+				}
+
+				catch (OthelloException &error) {
+					//Invalid new move
+					cout << error.what() << endl;
+
+					delete newMove;
+
+				}
+				//Get all new possible moves
+				board->GetPossibleMoves(&move);
+
+				bool equal = false;
+
+				for (GameMove *mov : move) {
+
+					if (*newMove == *mov && !equal) {
+						//Apply new move onto the board
+						board->ApplyMove(newMove);
+						//Valid new move
+						equal = true;
+
+					}
+					//Removing all possible moves on the heap
+					delete mov;
+				}
+
+				if (!equal) {
+
+					cout << "\nInvalid input" << endl;
+
+					//Removing invalid new move
+					delete newMove;
+
+				}
+				//Clear all move vector pointers
+				move.clear();
+
+			}
+
+			else if (order == "undo") {
+				//Number of undoes
+				int number = stoi(input.substr(position));
+
+				if (number > board -> GetMoveCount()) {
+					//Max number of undoes
+					number = board -> GetMoveCount();
+
+				}
+
+				while (number > 0) {
+					//Undo latest move
+					board->UndoLastMove();
+					//Next undo move
+					number--;
+
+				}
+			}
+
+			else if (order == "showValue") {
+				//Display current board value
+				cout << "Board Value: " << board->GetValue() << endl;
+
+			}
+
+			else if (order == "showHistory") {
+				//History of all moves apply
+				const vector<GameMove *> *history = board->GetMoveHistory();
+				//Number moves applied to the board
+				int index = board->GetMoveCount();
+
+				for (vector<GameMove *>::const_reverse_iterator temp =
+						history->crbegin(); temp != history->crend(); ++temp) {
+					//Getting latest move's history
+					GameMove *mov = *temp;
+
+					if (index % 2 == 0) {
+						//White history movement
+						cout << board->GetPlayerString(-1) << ": " << (string) *mov << endl;
+					}
+
+					else {
+						//Black history movement
+						cout << board->GetPlayerString(1) << ": " << (string) *mov << endl;
+
+					}
+					//Next player's history movement
+					index--;
+				}
+
+			}
+
+			else if (order == "quit") {
+
+				//Exit the game
+				cout << "Have a nice day" << endl;
+
+				break;
+
+			}
+
+			//Display current board
+			cout << endl << *view << endl;
+
+		}
+
+		if (board->GetValue() > 0) {
+			//Black/X won the game
+			cout << endl << board->GetPlayerString(1) << " wins!" << endl;
+
+		}
+
+		else if (board->GetValue() < 0) {
+			//White/O won the game
+			cout << endl << board->GetPlayerString(-1) << " wins!" << endl;
+		}
+
+		else {
+			//Tie game
+			cout << "\nIt's a tie!" << endl;
+
+		}
+
+		delete board;
+
+		delete view;
+
+	}
+
+}

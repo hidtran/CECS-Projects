@@ -1,0 +1,79 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<style>
+body {font-size: 13pt;} 
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+<h1>CECS 282 - Midterm 2 review</h1>
+<h2>Topics</h2>
+<h3><span style="font-size: 1.17em;">Pointers and dynamic memory</span></h3>
+<ul>
+<li>Syntax for pointers: difference between &amp; and *; between * and -&gt;; between passing a pointer and passing an object.</li>
+<li>The "new" and "delete" keywords and how they relate to putting variables on the heap</li>
+<li>Facts about the heap:</li>
+<ul>
+<li>Is the heap structured / can you predict where a value will go when placed on the heap?</li>
+<li>When do heap variables get freed?</li>
+<li>If a pointer on the stack gets popped, does the heap value that it points to get deleted?</li>
+<li>What are memory leaks / how do they happen?</li>
+</ul>
+<li>Philosophy:</li>
+<ul>
+<li>why put things on the heap?</li>
+<li>how to manage the lifetime of heap variables?</li>
+<li>contrast variables on the stack vs. those on the heap</li>
+</ul>
+<li>Ex: in this code, describe the difference between p and the Rational that it points to:<br /><br />Rational *p = new Rational(5, 3);</li>
+<li>Creating arrays on the heap: what does this let us do? how do we delete them?</li>
+</ul>
+<h3>Classes and objects</h3>
+<ul>
+<li>General class design: .h vs .cpp files, scoping rules, include guards, accessors and mutators.</li>
+<li>Operator overloading, particularly:</li>
+<ul>
+<li>arithmetic operators, like operator+ and operator- (<strong>both binary and unary</strong>)</li>
+<li>operator&lt;&lt; for output</li>
+<li>operator= for assignment</li>
+</ul>
+<li>Construction and destruction:</li>
+<ul>
+<li>default constructor</li>
+<li>copy constructor</li>
+<li>destructor</li>
+</ul>
+<li>const objects and const functions</li>
+<ul>
+<li>What member functions can you call on a const object?</li>
+<li>What is a const function?</li>
+<li>What do the three "const" keywords below do?:<br /><br />const string &amp;MyClass::SomeFunction(const Rational &amp;r) const { ...</li>
+</ul>
+<li>Why use the "const reference" parameter pattern?</li>
+<li>Why don't we use const reference with fundamental types?</li>
+<li>Deep vs shallow copies</li>
+<li>The role of destructors, copy constructors, and assignment operators in managing heap-based member variables</li>
+</ul>
+<h3>STL classes</h3>
+<ul>
+<li>string: know the substr function; how to index with [] or .at().</li>
+<li>array: contrast std::array with built-in arrays.</li>
+<li>ostringstream: construct an ostringstream object and use it to do formatted string construction.</li>
+</ul>
+<div>
+<h3>Exceptions</h3>
+</div>
+<div>
+<ul>
+<li>throw and catch simple exceptions (we'll always use std::out_of_range on the exam) to report and respond to simple errors</li>
+</ul>
+<div>
+<h3><span style="font-size: 1.17em;">Misc lecture topics</span></h3>
+</div>
+</div>
+<ul>
+<li>Nothing specifically about Othello, Monty Hall, Tic-Tac-Toe, etc.</li>
+</ul>
+</body>
+</html>

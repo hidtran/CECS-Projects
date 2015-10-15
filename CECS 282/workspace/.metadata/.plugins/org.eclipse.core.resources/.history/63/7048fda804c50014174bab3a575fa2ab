@@ -1,0 +1,118 @@
+/*
+ * Rational.cpp
+ *
+ *  Created on: Mar 3, 2015
+ *      Author: tom
+ */
+#include <iostream>
+#include "Rational.h"
+#include <cmath>
+
+using namespace std;
+
+Rational::Rational() : numerator(0), denominator(1) {
+}
+
+
+Rational::Rational(int num, int denom) : numerator(num), denominator(denom) {
+	normalize(numerator, denominator);
+}
+
+void Rational::setNumerator(int number){
+	numerator = number;
+}
+
+int Rational::getNumerator() const{
+	return numerator;
+}
+
+void Rational::setDenominator(int number){
+	denominator = number;
+}
+
+int Rational::getDenominator() const{
+	return denominator;
+}
+
+void Rational::normalize(int num, int denom){
+
+	if(denominator < 0 && numerator > 0){
+		numerator = -numerator;
+		denominator = abs(denominator);
+	}
+
+	else if(denominator < 0 && numerator < 0){
+		numerator = abs(numerator);
+		denominator = abs(denominator);
+	}
+
+	int commonFactor = gcd(numerator, denominator);
+
+	numerator /= commonFactor;
+
+	denominator /= commonFactor;
+
+}
+
+int Rational::gcd(int num, int denom){
+
+	int quotient, remainder;
+
+	if(num < denom){
+		int temp = num;
+		num = denom;
+		denom = temp;
+	}
+
+	while(num > denom){
+
+		remainder = num % denom;
+
+		quotient = num / denom;
+
+		num = denom;
+
+		if(remainder > 0){
+
+			denom = remainder;
+
+		}
+
+	}
+
+	return abs(num);
+
+}
+
+bool Rational::equals(const Rational &other){
+
+	return other.numerator == other.denominator ? true:false;
+
+}
+
+Rational Rational::add(const Rational &other){
+
+	numerator = numerator + other.numerator;
+
+	int num = other.numerator;
+
+	int denom = other.denominator;
+
+	for (int index = 0; numerator != other.denominator; index++){
+
+		numerator = numerator * index;
+
+		denom = denom * index;
+
+		if (numerator == denom){
+
+			denominator = denominator + denom;
+			other.denominator = denom;
+		}
+
+	}
+
+	return other;
+
+}
+

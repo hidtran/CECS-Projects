@@ -1,0 +1,87 @@
+/*
+ * TicTacToeBoard.cpp
+ *
+ *  Created on: May 6, 2015
+ *      Author: tom
+ */
+#include <iostream>
+#include <vector>
+#include "TicTacToeBoard.h"
+#include "TicTacToeMove.h"
+#include "GameMove.h"
+
+using namespace std;
+
+TicTacToeBoard::TicTacToeBoard() :
+		mBoard(), mPassCount(0) {
+}
+
+void TicTacToeBoard::GetPossibleMoves(vector<GameMove *> *list) const {
+
+	for (int row = EMPTY; row < BOARD_SIZE; row++) {
+
+		for (int column = EMPTY; column < BOARD_SIZE; column++) {
+
+			if (InBounds(row, column)) {
+
+				if (mBoard[row][column] == EMPTY) {
+
+					list->push_back(new TicTacToeMove(row, column));
+
+				}
+			}
+		}
+	}
+}
+
+void TicTacToeBoard::ApplyMove(GameMove *move) {
+
+TicTacToeMove *mov = dynamic_cast<TicTacToeMove *>(move);
+
+if (mov == nullptr) {
+
+throw GameException("Invalid Tic Tac Toe Move");
+
+}
+
+mHistory.push_back(mov);
+
+if (mov->IsPass()) {
+
+mPassCount++;
+
+}
+
+else {
+
+mPassCount = EMPTY;
+
+mBoard[mov->mRow][mov->mCol] = mNextPlayer;
+
+mValue += mNextPlayer;
+
+}
+
+mNextPlayer = -mNextPlayer;
+
+}
+
+void TicTacToeBoard::UndoLastMove() {
+
+TicTacToeMove *move = dynamic_cast<TicTacToeMove *>(mHistory.back());
+
+if (move == nullptr) {
+
+throw GameException("Invalid Tic Tac Toe Move");
+
+}
+
+mBoard[move->mRow][move->mCol] = EMPTY;
+
+mValue -= mNextPlayer;
+
+mPassCount = EMPTY;
+
+mHistory.back();
+
+}

@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename resource &apos;Moore Othello/OthelloMove&apos; to &apos;OthelloMove.h&apos;" description="Rename resource &apos;OthelloMove&apos;" flags="7" id="org.eclipse.ltk.core.refactoring.rename.resource" input="OthelloMove" name="OthelloMove.h" stamp="1428433350552" updateReferences="true"/>
+</session>

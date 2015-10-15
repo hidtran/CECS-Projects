@@ -1,0 +1,159 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<style>
+body {font-size: 13pt;} 
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+<h1>CECS 282 - Final exam review</h1>
+<h2>Topics</h2>
+<h3>New Topics</h3>
+<ul>
+<li>Templates</li>
+<li>Vectors and iterators</li>
+<li>Inheritance</li>
+<li>Polymorphism</li>
+<li>Virtual functions</li>
+<li>Casts</li>
+<li>Function pointers</li>
+<li>Unique pointers</li>
+</ul>
+<h3>Templates</h3>
+<ul>
+<li>Write and use a templated function.</li>
+<li>Describe the set of all types that can be used with an example templated function.</li>
+</ul>
+<h3>Vectors</h3>
+<ul>
+<li>Declare and use a vector of a particular data type.</li>
+<li>Declare and use iterators to walk through a vector and do something with its elements.</li>
+<li>Understand these vector functions: front, back, begin, end, push_back, pop_back, operator[]</li>
+</ul>
+<h3>Inheritance</h3>
+<ul>
+<li>VOCABULARY: base vs derived, parent vs child, super vs sub</li>
+<li>Understand and explain the role of inheritance in class design</li>
+<li>Private vs public vs protected when it comes to inheriting members</li>
+<li>Draw the layout of an object which has inherited member variables from a parent</li>
+<li>Understand how simple multiple inheritance works, and answer the above questions regarding multiple inheritance</li>
+<li>Understand how base class constructors and destructors get called when making/destructing derived class objects</li>
+</ul>
+<div>
+<h3>Polymorphism</h3>
+<ul>
+<li>Understand wtf this word means</li>
+<li>Know rules for assigning pointers to base and derived class objects (e.g., Animal* can hold a Dog*, but Dog* cannot hold an Animal*)</li>
+<li>Show how to pass derived class objects to functions which work on base class types</li>
+<li>There's a LOT I can ask you about this topic</li>
+</ul>
+<div>
+<h3>Virtual functions</h3>
+<ul>
+<li>Show which version of a virtual function gets called on a polymorphic pointer variable</li>
+<li>Declare and implement a virtual function</li>
+<li>Understand pure virtual functions and what you can do with a class that declares a pure virtual function</li>
+</ul>
+<div>
+<h3>Casts</h3>
+<ul>
+<li>Show how to properly use dynamic_cast and static_cast</li>
+<li>Understand WHEN the casts enforce their rules</li>
+</ul>
+<h3>Function pointers</h3>
+<ul>
+<li>Declare a std::function pointer that points to a given function.</li>
+<li>Give the output of a block of code that passes function pointers to other functions.</li>
+<li>(Similar to homework 12)</li>
+<li>Do not need to know how std::accumulate works.</li>
+</ul>
+<h3>Unique pointers</h3>
+<ul>
+<li>It will suffice to know that when a unique_ptr goes out of scope, the heap variable it points to is deleted, and that heap variable's destructor is called.</li>
+</ul>
+<h2>Older topics: YOU STILL NEED TO KNOW THESE</h2>
+</div>
+</div>
+</div>
+<h3><span style="font-size: 1.17em;">Pointers and the heap</span></h3>
+<ul>
+<li>Syntax for pointers: difference between &amp; and *; between * and -&gt;; between passing a pointer and passing an object.</li>
+<li>The "new" and "delete" keywords and how they relate to putting variables on the heap</li>
+<li>Know when heap objects get destructed</li>
+<li>Philosophy:</li>
+<ul>
+<li>why put things on the heap?</li>
+<li>how to manage the lifetime of heap variables?</li>
+<li>contrast variables on the stack vs. those on the heap</li>
+</ul>
+</ul>
+<h3>Classes and objects</h3>
+<ul>
+<li>Everything from exam 1 (class basics)</li>
+<li>Operator overloading, particularly:</li>
+<ul>
+<li>arithmetic operators, like operator+ and operator- (<strong>both binary and unary</strong>)</li>
+<li>operator&lt;&lt; for output</li>
+<li>operator string() for conversions</li>
+<li>operator= for assignment</li>
+</ul>
+<li>Construction and destruction:</li>
+<ul>
+<li>default constructor</li>
+<li>copy constructor</li>
+<li>destructor</li>
+<li>Temporary objects created during statements, passed as parameters, returned from functions, etc.</li>
+</ul>
+<li>Understand the role of "this" and the "context object" parameter passed to class member functions. <b>TL;DR:</b>&nbsp;every class member function takes a parameter of type "ClassName *this" as the first parameter to the function, in addition to explicitly listed parameters.</li>
+<li>const objects and const functions</li>
+<li>The "const reference" parameter pattern</li>
+</ul>
+<h3>STL classes</h3>
+<ul>
+<li>string: know the substr function; how to index with [] or .at().</li>
+</ul>
+<div>
+<h3>Memory management</h3>
+<ul>
+<li>Give the layout of the program stack following a sequence of statements/declarations/function calls.</li>
+<li>Know the stack layout rules for: primitive types; objects; arrays; pointers; references; functions.</li>
+<li>Seriously.</li>
+</ul>
+</div>
+<div>
+<h3>Fundamental types</h3>
+<ul>
+<li>Know valid fundamental types and their domains</li>
+<li>Know implicit conversion details (double to int, int to bool, bool to int, etc.)</li>
+<li>Practice problem: int x = 1; while (!x != 10) {cout &lt;&lt; "Hi"; x++;} ------ how many times will this output? Ans: Buzz Lightyear.</li>
+<li>rules about the sizes of various fundamental&nbsp;types; which types have guaranteed sizes and which are variable</li>
+</ul>
+<h3>References, arrays, and pointers</h3>
+<ul>
+<li>Declare and use a reference variable</li>
+<li>Declare and use pointers</li>
+<li>Declare and use an array</li>
+<li>Differences between Java and C++ arrays</li>
+<li>Compare and contrast pointers and references</li>
+<li>Arrays as pointers</li>
+<li>C-style strings as char arrays/char pointers</li>
+<li>Follow complicated function calls involving references/pointers and track how variable values change over the program's lifetime</li>
+<li>Size details of pointer variables vs. the things they point to.</li>
+</ul>
+</div>
+<div>
+<h3><span style="font-size: 1.17em;">Do not need to know</span></h3>
+</div>
+<div>
+<ul>
+<li>How to throw and catch exceptions</li>
+<li>no istringstream, ostringstream, ifstream, ofstream, std::array, or random.</li>
+</ul>
+</div>
+<h3>Misc lecture topics</h3>
+<ul>
+<li>Nothing specifically about Othello, Monty Hall, Tic-Tac-Toe, etc.</li>
+</ul>
+</body>
+</html>

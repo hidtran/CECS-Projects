@@ -1,0 +1,226 @@
+/*
+ * OthelloBoard.cpp
+ *
+ *  Created on: Apr 7, 2015
+ *      Author: tom
+ */
+#include <iostream>
+#include <vector>
+#include "OthelloBoard.h"
+
+using namespace std;
+
+OthelloBoard::OthelloBoard(): mBoard(), mNextPlayer(BLACK), mValue(EMPTY), mPassCount(EMPTY) {
+
+	mBoard[(BOARD_SIZE / 2) - 1][(BOARD_SIZE / 2) - 1] = WHITE;
+
+	mBoard[(BOARD_SIZE / 2) - 1][BOARD_SIZE / 2] = BLACK;
+
+	mBoard[BOARD_SIZE / 2][(BOARD_SIZE / 2) - 1] = BLACK;
+
+	mBoard[BOARD_SIZE / 2][BOARD_SIZE / 2] = WHITE;
+
+}
+
+void OthelloBoard::GetPossibleMoves(vector<OthelloMove *> *list) const {
+
+	cout << "Next Player: " << mNextPlayer << endl;
+
+	for (int row = 0; row < BOARD_SIZE; row++) {
+
+		for (int column = 0; column < BOARD_SIZE; column++) {
+
+			if (mBoard[row][column] == EMPTY) {
+
+				// ApplyMove code goes here with some tweaks.
+
+				for (int i = WHITE; i <= BLACK; i++) {
+
+					for (int j = WHITE; j <= BLACK; j++) {
+
+						int enemy = 0;
+
+						int movRow = row;
+
+						int movColumn = column;
+
+						while (InBounds(movRow, movColumn)) {
+
+							movRow = row + i;
+
+							movColumn = column + j;
+
+							if (mBoard[movRow][movColumn] == 0) {
+
+								cout << "movRow: " << movRow << endl;
+
+								cout << "movColumn: " << movColumn << endl;
+								break;
+							}
+
+							else if (mBoard[movRow][movColumn] == mNextPlayer) {
+
+								while(enemy > 0){
+
+									movRow -= i;
+
+									movColumn -= j;
+
+									list -> push_back(new OthelloMove(movRow, movColumn));
+
+									enemy--;
+								}
+
+								break;
+
+							}
+
+							else {
+								enemy++;
+
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	if (list -> empty()) {
+
+		list -> push_back(new OthelloMove());
+
+	}
+
+}
+
+void OthelloBoard::ApplyMove(OthelloMove *move) {
+
+	mHistory.push_back(move);
+
+	int row = move -> mRow;
+
+	int column = move -> mCol;
+
+	if (row == -1 && column == -1) {
+
+		mPassCount++;
+
+	}
+
+	else {
+
+		for (int i = WHITE; i <= BLACK; i++) {
+
+			for (int j = WHITE; j <= BLACK; j++) {
+
+				int enemy = 0;
+
+				int movRow = row;
+
+				int movColumn = column;
+
+				while (InBounds(movRow, movColumn)) {
+
+					movRow = row + i;
+
+					movColumn = column + j;
+
+					if (mBoard[movRow][movColumn] == 0) {
+
+						break;
+
+					}
+
+					else if (mBoard[movRow][movColumn] == mNextPlayer) {
+
+						move -> AddFlipSet(OthelloMove::FlipSet(enemy, movRow, movColumn));
+
+						while (enemy > 0) {
+
+							movRow -= i;
+
+							movColumn -= j;
+
+
+							mBoard[movRow][movColumn] = mNextPlayer;
+
+							if (mNextPlayer == BLACK) {
+
+								mValue++;
+
+							}
+
+							else {
+
+								mValue--;
+
+							}
+						}
+
+						break;
+
+					}
+
+					else {
+
+						enemy++;
+
+					}
+				}
+			}
+		}
+	}
+
+	mNextPlayer = -mNextPlayer;
+}
+
+void OthelloBoard::UndoLastMove() {
+
+	OthelloMove *move = mHistory.back();
+
+	if (move -> mRow != -1 && move -> mCol != -1) {
+
+		mBoard[move -> mRow][move -> mCol] = EMPTY;
+
+		for (OthelloMove::FlipSet &flip : move -> mFlips) {
+
+			int movRow = move -> mRow;
+
+			int movCol = move -> mCol;
+
+			while (flip.switched > 0) {
+
+				movRow += flip.rowDelta;
+
+				movCol += flip.colDelta;
+
+
+				mBoard[movRow][movCol] = mNextPlayer;
+
+				if (mNextPlayer == BLACK) {
+
+					mValue++;
+
+				}
+
+				else {
+
+					mValue--;
+
+				}
+
+				flip.switched--;
+			}
+		}
+	}
+
+	mHistory.pop_back();
+
+	delete move;
+
+	mNextPlayer = -mNextPlayer;
+
+	mPassCount--;
+
+}

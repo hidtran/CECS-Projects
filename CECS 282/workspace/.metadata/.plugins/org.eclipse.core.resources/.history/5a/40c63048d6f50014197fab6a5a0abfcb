@@ -1,0 +1,140 @@
+/*
+ * main.cpp
+ *
+ *  Created on: May 7, 2015
+ *      Author: tom
+ */
+#include <iostream>
+#include <vector>
+#include <string>
+#include "GameBoard.h"
+#include "GameMove.h"
+#include "GameExceptions.h"
+#include "OthelloBoard.h"
+#include "OthelloMove.h"
+#include "OthelloView.h"
+#include "TicTacToeBoard.h"
+#include "TicTacToeMove.h"
+#include "TicTacToeView.h"
+
+using namespace std;
+
+void Othello();
+
+GameBoard *board;
+
+GameView *view;
+
+int main(int argc, char* argv[]) {
+
+	cout << "Choose the following games to play: " << endl;
+
+	cout << "O: Othello Game" << endl;
+
+	cout << "T: TicTacToe Game" << endl;
+
+	cout << "C: Connect Four Game" << endl;
+
+	cout << "Q: Exit" << endl;
+
+	char input;
+
+	cin.get(input);
+
+	toupper(input);
+
+	cin.get();
+
+	cout << input;
+
+	switch(input) {
+
+		case 'O':
+
+			board = new OthelloBoard();
+
+			view = new OthelloView(board);
+
+			Othello();
+
+			break;
+
+		case 'T':
+
+			board = new TicTacToeBoard();
+
+			view = new TicTacToeView(board);
+
+			break;
+
+		case 'C':
+
+			break;
+
+		case 'Q':
+
+			break;
+
+		default:
+
+			break;
+
+	}
+
+}
+
+void Othello() {
+
+	cout << "Welcome to Othello!" << endl;
+
+	OthelloBoard *oBoard = dynamic_cast<OthelloBoard *> (board);
+
+	OthelloView *oView = dynamic_cast <OthelloView *> (view);
+
+	vector <GameMove *> *move;
+
+	string input;
+
+	while (!board -> IsFinished()) {
+
+		cout << view << endl;
+
+		oBoard->GetPossibleMoves(move);
+
+	}
+
+	string possMoves;
+
+	vector<OthelloMove *> *oMove = dynamic_cast<OthelloMove *> (move);
+
+	for (OthelloMove *mov: oMove) {
+
+		possMoves += *mov;
+
+		delete mov;
+
+	}
+
+	oMove->clear();
+
+	if (oBoard -> GetNextPlayer() == oBoard -> BLACK) {
+
+		cout << "\nBlack's Turn" << endl;
+	}
+
+	else if (oBoard -> GetNextPlayer() == oBoard -> WHITE) {
+
+		cout << "\nWhite's Turn" << endl;
+
+	}
+
+	cout << "Possible Moves: " << possMoves << endl;
+
+
+
+
+
+}
+
+
+

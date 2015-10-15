@@ -1,0 +1,58 @@
+/*
+ * HW10.cpp
+ *
+ *  Created on: Apr 21, 2015
+ *      Author: tom
+ */
+#include <iostream>
+#include <string>
+#include <algorithm>
+#include <fstream>
+
+using namespace std;
+
+void fileStream();
+
+int main(int argc, char* argv[]) {
+
+	string s = "Hello.My.World:CSULB";
+	char c = s.at(6);
+	string substr = s.substr(2, 6);
+	int length = s.length();
+	int index = s.find_first_of(':');
+	reverse(s.begin(), s.end());
+	replace(s.begin(), s.end(), '.', '+');
+
+	fileStream();
+
+}
+
+void fileStream() {
+
+	ifstream file;
+	file.open("numbers.txt");
+	string read;
+	int mean = 0;
+	int index = 0;
+
+	if (file.is_open()) {
+		while (file.good()) {
+
+			getline(file, read);
+
+		}
+
+		for (int index : read) {
+
+			mean += read[index];
+
+		}
+
+		mean /= 10;
+
+		cout << "Mean: " << mean << endl;
+	}
+
+	file.close();
+}
+

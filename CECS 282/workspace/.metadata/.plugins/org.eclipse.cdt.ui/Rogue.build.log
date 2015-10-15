@@ -1,0 +1,7 @@
+11:25:52 **** Clean-only build of configuration Debug for project Rogue ****
+make clean 
+rm -rf  ./main.o  ./main.d  Rogue
+ 
+
+11:25:52 Build Finished (took 74ms)
+

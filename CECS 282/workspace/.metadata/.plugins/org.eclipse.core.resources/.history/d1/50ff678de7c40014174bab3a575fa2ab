@@ -1,0 +1,31 @@
+/*
+ * Rational.h
+ *
+ *  Created on: Mar 3, 2015
+ *      Author: tom
+ */
+
+#ifndef RATIONAL_H_
+#define RATIONAL_H_
+
+#include <string>
+
+class Rational {
+private:
+	int numerator;
+	int denominator;
+public:
+	Rational();
+	Rational (int num, int denom);
+	void setNumerator(int num);
+	int getNumerator() const;
+	void setDenominator(int num);
+	int getDenominator() const;
+	void normalize(int num, int denom);
+	int gcd(int num, int denom);
+	bool equals(const Rational &other);
+	Rational add(const Rational &other);
+	std::string toString();
+};
+
+#endif /* RATIONAL_H_ */
